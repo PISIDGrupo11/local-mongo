@@ -34,6 +34,9 @@ services:
     image: mongo:4.4
     volumes:
       - ~/mongors/data3:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
     networks:
       - mongors-network
     ports:
@@ -45,6 +48,8 @@ services:
     image: mongo-express
     container_name: mongo-express
     restart: always
+    networks:
+      - mongors-network
     ports:
       - "8081:8081"
     environment:
