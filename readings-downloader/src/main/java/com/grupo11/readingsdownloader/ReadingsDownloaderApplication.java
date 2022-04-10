@@ -1,57 +1,27 @@
 package com.grupo11.readingsdownloader;
 
-import com.grupo11.readingsdownloader.database.mongodb.models.CloudSQLBackupSensor;
-import com.grupo11.readingsdownloader.database.mongodb.models.CloudSQLBackupZone;
-import com.grupo11.readingsdownloader.database.mongodb.models.FilteredData;
-import com.grupo11.readingsdownloader.database.mongodb.repository.CloudBackupZoneRepository;
-import com.grupo11.readingsdownloader.database.mongodb.repository.CloudSQLBackupSensorRepository;
-import com.grupo11.readingsdownloader.database.mongodb.repository.FilteredDataRepository;
-import org.springframework.boot.CommandLineRunner;
+import com.grupo11.readingsdownloader.database.cloud.mysql.models.Sensor;
+import com.grupo11.readingsdownloader.database.cloud.mysql.models.Zona;
+import com.grupo11.readingsdownloader.database.cloud.mysql.repository.MySQLCloudRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.context.ApplicationContext;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Optional;
 
 @SpringBootApplication
 public class ReadingsDownloaderApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ReadingsDownloaderApplication.class, args);
+        ApplicationContext ctx = SpringApplication.run(ReadingsDownloaderApplication.class, args);
+
+        MySQLCloudRepository repository = ctx.getBean(MySQLCloudRepository.class);
+
+        Optional<Zona> zona = repository.getZona(1);
+        Optional<Sensor> sensor = repository.getSensor(1, "H");
+
+        System.out.println(sensor);
     }
 
-
-    @Bean
-    CommandLineRunner runner(FilteredDataRepository filteredRepository,
-                             CloudBackupZoneRepository zoneRepository,
-                             CloudSQLBackupSensorRepository sensorRepository) {
-        return args -> {
-            FilteredData data = new FilteredData(
-                    "Z1",
-                    "T1",
-                    LocalDateTime.now(),
-                    10.0f,
-                    "sdkfjhsdfkj");
-
-            CloudSQLBackupSensor sensor = new CloudSQLBackupSensor(
-                    10.0f,
-                    2f,
-                    1f
-            );
-
-            CloudSQLBackupZone zone = new CloudSQLBackupZone(
-                    "H",
-                    0,
-                    10,
-                    "23"
-            );
-
-            filteredRepository.insert(data);
-            sensorRepository.insert(sensor);
-            zoneRepository.insert(zone);
-        };
-    }
 
 }

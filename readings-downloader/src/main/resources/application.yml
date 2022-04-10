@@ -1,0 +1,21 @@
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      database: LabMedicoes
+      port: 30001
+      host: localhost
+      auto-index-creation: true
+
+  datasource:
+    mysql-cloud:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://194.210.86.10:3306/sid2022
+      password: 'aluno'
+      pool-size: 30
+      username: aluno
+
+server:
+  error:
+    include-binding-errors: always
+    include-message: always
