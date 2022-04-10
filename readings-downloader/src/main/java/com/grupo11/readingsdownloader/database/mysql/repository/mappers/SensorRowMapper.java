@@ -1,6 +1,6 @@
-package com.grupo11.readingsdownloader.database.cloud.mysql.repository.mappers;
+package com.grupo11.readingsdownloader.database.mysql.repository.mappers;
 
-import com.grupo11.readingsdownloader.database.cloud.mysql.models.Sensor;
+import com.grupo11.readingsdownloader.database.mysql.models.Sensor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

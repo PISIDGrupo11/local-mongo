@@ -1,8 +1,8 @@
 package com.grupo11.readingsdownloader;
 
-import com.grupo11.readingsdownloader.database.cloud.mysql.models.Sensor;
-import com.grupo11.readingsdownloader.database.cloud.mysql.models.Zona;
-import com.grupo11.readingsdownloader.database.cloud.mysql.repository.MySQLCloudRepository;
+import com.grupo11.readingsdownloader.database.mysql.models.Sensor;
+import com.grupo11.readingsdownloader.database.mysql.models.Zona;
+import com.grupo11.readingsdownloader.database.mysql.repository.MySQLCloudRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

@@ -1,11 +1,16 @@
+
+
 spring:
+
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+
   data:
     mongodb:
-      authentication-database: admin
-      database: LabMedicoes
-      port: 30001
-      host: localhost
-      auto-index-creation: true
+      local:
+        uri: mongodb://localhost:30001/LabMedicoes
+      cloud:
+        uri: mongodb://194.210.86.10:27017/sid2022
 
   datasource:
     mysql-cloud:

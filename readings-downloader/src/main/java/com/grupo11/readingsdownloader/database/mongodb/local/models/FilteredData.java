@@ -1,10 +1,9 @@
-package com.grupo11.readingsdownloader.database.mongodb.models;
+package com.grupo11.readingsdownloader.database.mongodb.local.models;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data

@@ -1,4 +1,4 @@
-package com.grupo11.readingsdownloader.database.cloud.mysql;
+package com.grupo11.readingsdownloader.database.mysql;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;

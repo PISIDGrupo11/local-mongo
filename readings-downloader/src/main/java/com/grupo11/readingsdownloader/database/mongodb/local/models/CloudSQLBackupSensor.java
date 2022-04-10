@@ -1,4 +1,4 @@
-package com.grupo11.readingsdownloader.database.mongodb.models;
+package com.grupo11.readingsdownloader.database.mongodb.local.models;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;

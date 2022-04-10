@@ -1,4 +1,4 @@
-package com.grupo11.readingsdownloader.database.cloud.mysql.models;
+package com.grupo11.readingsdownloader.database.mysql.models;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
