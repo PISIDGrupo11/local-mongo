@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.query.FluentQuery;
@@ -16,32 +17,31 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+
 @Repository
-public class CloudSensorRepositoryImp implements  CloudSensorRepository{
-    @Qualifier("cloudMongoTemplate")
+public class CloudSensorRepositoryImp implements CloudSensorRepository{
+
+
     @Autowired
+    @Qualifier("cloudMongoTemplate")
     MongoTemplate mongoTemplate;
 
 
-    public void test(){
-        Query q = new Query();
-        q.addCriteria(Criteria.where("Medicao").is("24.61639494871795"));
-        List<CloudSensor> l =mongoTemplate.find(q,CloudSensor.class);
-        System.out.println(l);
-    }
+
     @Override
     public List<CloudSensor> findCloudSensorByMedicaoEquals(String Medicao) {
-        Query q = new Query();
-        q.addCriteria(Criteria.where("Medicao").is(Medicao));
-        List<CloudSensor> l =mongoTemplate.find(q,CloudSensor.class);
-        System.out.println(l);
-         return l;
-
+        return null;
     }
 
+
     @Override
-    public Optional<CloudSensor> findCloudSensorsByDataEquals(String Data) {
-        return Optional.empty();
+    public List<CloudSensor> findCloudSensorsByDataEquals(String Data) {
+
+        Query query = new Query(Criteria.where("Data").gte(Data));
+      query.limit(10);
+        List<CloudSensor> result = mongoTemplate.find(query, CloudSensor.class);
+
+return result;
     }
 
     @Override

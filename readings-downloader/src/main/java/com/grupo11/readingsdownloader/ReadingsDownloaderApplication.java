@@ -3,7 +3,6 @@ package com.grupo11.readingsdownloader;
 import com.grupo11.readingsdownloader.database.mongodb.cloud.models.CloudSensor;
 import com.grupo11.readingsdownloader.database.mongodb.cloud.repository.CloudSensorRepository;
 import com.grupo11.readingsdownloader.database.mongodb.cloud.repository.CloudSensorRepositoryImp;
-import com.grupo11.readingsdownloader.database.mongodb.local.models.FilteredData;
 import com.grupo11.readingsdownloader.database.mongodb.local.repository.FilteredDataRepository;
 import com.grupo11.readingsdownloader.database.mysql.models.Sensor;
 import com.grupo11.readingsdownloader.database.mysql.models.Zona;
@@ -12,13 +11,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,9 +35,10 @@ public class ReadingsDownloaderApplication {
 
         CloudSensorRepositoryImp cloudSensorRepository = ctx.getBean(CloudSensorRepositoryImp.class);
        // Iterable<CloudSensor> l= cloudSensorRepository.findAll();
-cloudSensorRepository.findCloudSensorByMedicaoEquals("20.0");
+List<CloudSensor> l=cloudSensorRepository.findCloudSensorsByDataEquals("2021-02-24 at 21:38:58 GMT");
         //for(CloudSensor c:l)
             //System.out.println(c);
+        System.out.println(l);
     }
 
     CommandLineRunner runner(CloudSensorRepository repository, MongoTemplate mongoTemplate){
