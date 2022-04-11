@@ -9,8 +9,11 @@ spring:
     mongodb:
       local:
         uri: mongodb://localhost:30001/LabMedicoes
+        database: LabMedicoes
       cloud:
-        uri: mongodb://aluno:aluno@194.210.86.10:27017/sid2021?authSource=admin
+        uri: mongodb://aluno:aluno@194.210.86.10:27017/?authSource=admin
+        database: sid2021
+        collection: sensorh1
 
 
 
