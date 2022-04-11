@@ -1,10 +1,13 @@
 package com.grupo11.readingsdownloader.database.mongodb.cloud.repository;
 
+import com.grupo11.readingsdownloader.database.mongodb.cloud.models.CloudSensor;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Repository
 public class CloudMongoRepository {
@@ -18,7 +21,9 @@ public class CloudMongoRepository {
     }
 
     // Test query
-    public Optional<Document> findOne() {
-        return mapper.mapFindOne(database.findOne());
+    public CloudSensor findOne() {
+        Optional<Document> document = StreamSupport.stream(database.findOne().spliterator(), false)
+                .findFirst();
+        return mapper.mapFindOne(document.get());
     }
 }
