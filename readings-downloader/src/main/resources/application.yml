@@ -10,7 +10,9 @@ spring:
       local:
         uri: mongodb://localhost:30001/LabMedicoes
       cloud:
-        uri: mongodb://194.210.86.10:27017/sid2022
+        uri: mongodb://aluno:aluno@194.210.86.10:27017/sid2021?authSource=admin
+
+
 
   datasource:
     mysql-cloud:

@@ -30,6 +30,7 @@ public class MongoConfig {
         return new MongoTemplate(localDatabaseFactory(getLocalProps()));
     }
 
+
     @Bean(name = "cloudMongoTemplate")
     public MongoTemplate getCloudMongoTemplate() {
         return new MongoTemplate(cloudDatabaseFactory(getCloudProps()));
