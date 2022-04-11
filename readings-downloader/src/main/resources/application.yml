@@ -10,6 +10,8 @@ spring:
       local:
         uri: mongodb://localhost:30001/LabMedicoes
         database: LabMedicoes
+        collections:
+          filtered-data: filteredData
       cloud:
         uri: mongodb://aluno:aluno@194.210.86.10:27017/sid2022?authSource=admin
         database: sid2021
