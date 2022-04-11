@@ -9,7 +9,7 @@ public class LocalMongoRepository {
     private final LocalMongoDatabase database;
     private final LocalMongoMapper mapper;
 
-    public LocalMongoRepository(@Qualifier("local") LocalMongoDatabase database, LocalMongoMapper mapper) {
+    public LocalMongoRepository(LocalMongoDatabase database, LocalMongoMapper mapper) {
         this.database = database;
         this.mapper = mapper;
     }

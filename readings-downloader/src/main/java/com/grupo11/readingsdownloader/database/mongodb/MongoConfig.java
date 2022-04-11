@@ -52,23 +52,11 @@ public class MongoConfig {
     }
 
     @Bean
-    public LocalMongoMapper provideLocalMongoMapper() {
-        return new LocalMongoMapper();
-    }
-
-    @Bean
-    public CloudMongoMapper provideCloudMongoMapper() {
-        return new CloudMongoMapper();
-    }
-
-    @Bean
-    @Qualifier("local")
     public LocalMongoDatabase provideLocalMongoDatabase(@Qualifier("local") MongoDatabase mongoDatabase) {
         return new LocalMongoDatabaseImpl(mongoDatabase);
     }
 
     @Bean
-    @Qualifier("cloud")
     public CloudMongoDatabase provideCloudMongoDatabase(@Qualifier("cloud") MongoDatabase mongoDatabase) {
         MongoCollection<Document> collection = mongoDatabase.getCollection(CLOUD_MONGO_COLLECTION);
         return new CloudMongoDatabaseImpl(mongoDatabase, collection);
