@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 @Component
 public class CloudMongoMapper {
@@ -24,7 +22,7 @@ public class CloudMongoMapper {
         );
     }
 
-    public List<CloudSensor> mapGetMostRecentData(FindIterable<Document> documents) {
+    public List<CloudSensor> mapMultipleDocumentsToCloudSensor(FindIterable<Document> documents) {
         List<CloudSensor> dataList = new ArrayList<>();
         for(Document document: documents)
             dataList.add(new CloudSensor(

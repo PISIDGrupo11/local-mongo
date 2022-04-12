@@ -34,4 +34,10 @@ public class CloudMongoDatabaseImpl implements CloudMongoDatabase {
         gtQuery.put("_id", new BasicDBObject("$gt", objectId));
         return collection.find(gtQuery).sort(new BasicDBObject("_id", 1));
     }
+
+    @Override
+    public FindIterable<Document> getBulkData() {
+        BasicDBObject query = new BasicDBObject();
+        return collection.find(query).sort(new BasicDBObject("_id", 1)).limit(100);
+    }
 }

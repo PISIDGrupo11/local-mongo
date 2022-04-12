@@ -13,5 +13,6 @@ public interface CloudMongoDatabase {
 
     FindIterable<Document> getMostRecentData(ObjectId objectId);
 
+    FindIterable<Document> getBulkData();
 
 }

@@ -1,14 +1,11 @@
 package com.grupo11.readingsdownloader.database.mongodb.cloud.repository;
 
 import com.grupo11.readingsdownloader.database.mongodb.cloud.models.CloudSensor;
-import com.mongodb.client.FindIterable;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -32,7 +29,11 @@ public class CloudMongoRepository {
     }
 
     public List<CloudSensor> getMostRecentData(ObjectId objectId) {
-        return mapper.mapGetMostRecentData(database.getMostRecentData(objectId));
+        return mapper.mapMultipleDocumentsToCloudSensor(database.getMostRecentData(objectId));
+    }
+
+    public List<CloudSensor> getBulkData() {
+        return mapper.mapMultipleDocumentsToCloudSensor(database.getBulkData());
     }
 
 }
