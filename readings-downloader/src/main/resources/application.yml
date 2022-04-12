@@ -12,6 +12,8 @@ spring:
         database: LabMedicoes
         collections:
           filtered-data: filteredData
+          cloudsql-backup-sensor: cloudSQLBackupSensor
+          cloudsql-backup-zone: cloudSQLBackupZone
       cloud:
         uri: mongodb://aluno:aluno@194.210.86.10:27017/sid2022?authSource=admin
         database: sid2021
