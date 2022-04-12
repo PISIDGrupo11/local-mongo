@@ -3,6 +3,7 @@ package com.grupo11.readingsdownloader.service.usecases;
 import com.grupo11.readingsdownloader.database.mongodb.cloud.models.CloudSensor;
 import com.grupo11.readingsdownloader.database.mongodb.cloud.repository.CloudMongoDatabase;
 import com.grupo11.readingsdownloader.database.mongodb.cloud.repository.CloudMongoRepository;
+import com.grupo11.readingsdownloader.database.mysql.repository.MySQLCloudRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,6 @@ public class DowloadLatestDataUseCase {
     }
 
     public List<CloudSensor> execute(LocalDateTime dateTime) {
-        throw new java.lang.UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException();
     }
 }
