@@ -4,7 +4,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import lombok.AllArgsConstructor;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,13 +12,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class LocalMongoDBImpl implements LocalMongoDB {
 
+    private final MongoDatabase session;
     @Value("${spring.data.mongodb.local.collections.filtered-data}")
     private String localMongoDataCollection;
-
     @Value("${spring.data.mongodb.local.collections.readings-processor-timestamp-holder}")
     private String readingsProcessorTimestampHolderCollection;
-
-    private final MongoDatabase session;
 
     public LocalMongoDBImpl(MongoDatabase session) {
         this.session = session;

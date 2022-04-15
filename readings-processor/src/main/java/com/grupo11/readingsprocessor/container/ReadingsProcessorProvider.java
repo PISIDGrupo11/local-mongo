@@ -53,7 +53,7 @@ public class ReadingsProcessorProvider {
     @Bean
     public IMqttClient provideMQQTCliet() throws MqttException {
         String publisherId = UUID.randomUUID().toString();
-        IMqttClient publisher = new MqttClient("tcp://iot.eclipse.org:1883",publisherId);
+        IMqttClient publisher = new MqttClient("tcp://iot.eclipse.org:1883", publisherId);
         MqttConnectOptions options = new MqttConnectOptions();
         options.setAutomaticReconnect(true);
         options.setCleanSession(true);

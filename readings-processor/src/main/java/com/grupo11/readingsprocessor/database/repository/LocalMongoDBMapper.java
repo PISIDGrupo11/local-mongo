@@ -14,7 +14,7 @@ public class LocalMongoDBMapper {
 
     public List<SensorData> mapMultipleDocumentsToSensorData(FindIterable<Document> documents) {
         List<SensorData> dataList = new ArrayList<>();
-        for(Document document: documents)
+        for (Document document : documents)
             dataList.add(new SensorData(
                     document.getObjectId("_id"),
                     document.getString("Data"),
@@ -32,6 +32,6 @@ public class LocalMongoDBMapper {
     public Document mapSensorObjectIdToDocument(ObjectId objectId) {
         Document document = new Document();
         document.append("_id", objectId);
-        return  document;
+        return document;
     }
 }

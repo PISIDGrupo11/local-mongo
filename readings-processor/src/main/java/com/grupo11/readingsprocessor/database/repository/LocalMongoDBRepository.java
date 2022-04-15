@@ -24,7 +24,7 @@ public class LocalMongoDBRepository {
 
     public ObjectId getLastSentId() throws NotFoundException {
         MongoCursor<Document> cursor = database.getLastSentId().iterator();
-        if(!cursor.hasNext())
+        if (!cursor.hasNext())
             throw new NotFoundException("No data has been sent yet!");
         return mapper.mapDocumentToObjectId(cursor.next());
     }

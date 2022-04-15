@@ -18,6 +18,11 @@ spring:
       pool-size: 30
       username: software
 
+broker:
+  uri: "tcp://localhost:1883"
+  topic1: "readings"
+  topic2: "anomalies"
+
 server:
   error:
     include-binding-errors: always
