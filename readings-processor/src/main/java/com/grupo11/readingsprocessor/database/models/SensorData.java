@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 
 @Data
 @AllArgsConstructor
-public class FilteredData {
+public class SensorData {
 
     private final ObjectId id;
     private final String data;

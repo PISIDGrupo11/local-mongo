@@ -10,6 +10,7 @@ spring:
         database: LabMedicoes
         collections:
           filtered-data: filteredData
+          readings-processor-timestamp-holder: readinsProcessorTimestampHolder
 
 server:
   error:
