@@ -3,7 +3,6 @@ package com.grupo11.readingsprocessor.database.repository;
 import com.grupo11.readingsprocessor.database.LocalMongoDB;
 import com.grupo11.readingsprocessor.database.exceptions.NotFoundException;
 import com.grupo11.readingsprocessor.database.models.SensorData;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
 import lombok.AllArgsConstructor;
 import org.bson.Document;

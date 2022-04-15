@@ -4,10 +4,14 @@ import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
 public class ReadingsProcessorProvider {
@@ -23,5 +27,20 @@ public class ReadingsProcessorProvider {
         ConnectionString localMongo = new ConnectionString(LOCAL_MONGO_URI);
         MongoClient mongoClient = MongoClients.create(localMongo);
         return mongoClient.getDatabase(LOCAL_MONGO_DB);
+    }
+
+    @Bean
+    @Primary
+    @ConfigurationProperties("spring.data.mysql-cloud")
+    public HikariDataSource hikariDataSource() {
+        return DataSourceBuilder
+                .create()
+                .type(HikariDataSource.class)
+                .build();
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(HikariDataSource hikariDataSource) {
+        return new JdbcTemplate(hikariDataSource);
     }
 }
