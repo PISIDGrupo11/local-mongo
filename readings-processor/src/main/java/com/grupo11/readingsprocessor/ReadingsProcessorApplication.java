@@ -17,7 +17,7 @@ public class ReadingsProcessorApplication {
 
         MQTTSender mqttSender = ctx.getBean(MQTTSender.class);
 
-        mqttSender.send(55, "READINGS_GRUPO11_ISCTE");
+        mqttSender.send(55, "readings");
 
     }
 

@@ -11,9 +11,9 @@ spring:
         collections:
           filtered-data: filteredData
           readings-processor-timestamp-holder: readinsProcessorTimestampHolder
-    mysql-cloud:
+    mysql-pc2:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://localhost:3307/localsensor
+      jdbc-url: jdbc:mysql://localhost:3307
       password: 'password'
       pool-size: 30
       username: software

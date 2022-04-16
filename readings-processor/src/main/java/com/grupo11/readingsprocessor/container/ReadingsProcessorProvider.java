@@ -9,6 +9,7 @@ import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -28,6 +29,9 @@ public class ReadingsProcessorProvider {
     @Value("${spring.data.mongodb.local.database}")
     private String LOCAL_MONGO_DB;
 
+    @Value("${broker.uri}")
+    private String mqttServer;
+
     @Bean
     public MongoDatabase provideMongoLocalDatabase() {
         ConnectionString localMongo = new ConnectionString(LOCAL_MONGO_URI);
@@ -37,7 +41,7 @@ public class ReadingsProcessorProvider {
 
     @Bean
     @Primary
-    @ConfigurationProperties("spring.data.mysql-cloud")
+    @ConfigurationProperties("spring.data.mysql-pc2")
     public HikariDataSource hikariDataSource() {
         return DataSourceBuilder
                 .create()
@@ -52,13 +56,9 @@ public class ReadingsProcessorProvider {
 
     @Bean
     public IMqttClient provideMQQTCliet() throws MqttException {
-        String publisherId = UUID.randomUUID().toString();
-        IMqttClient publisher = new MqttClient("tcp://iot.eclipse.org:1883", publisherId);
-        MqttConnectOptions options = new MqttConnectOptions();
-        options.setAutomaticReconnect(true);
-        options.setCleanSession(true);
-        options.setConnectionTimeout(10);
-        publisher.connect(options);
-        return publisher;
+        MemoryPersistence memoryPersistence = new MemoryPersistence();
+        MqttClient mqttClient = new MqttClient(mqttServer, MqttClient.generateClientId(), memoryPersistence);
+        mqttClient.connect();
+        return mqttClient;
     }
 }

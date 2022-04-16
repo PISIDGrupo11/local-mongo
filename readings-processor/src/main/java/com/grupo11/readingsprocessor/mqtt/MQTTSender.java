@@ -8,6 +8,8 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 @Service
 @AllArgsConstructor
@@ -22,4 +24,5 @@ public class MQTTSender {
         mqttMessage.setRetained(true);
         mqttClient.publish(topic, mqttMessage);
     }
+
 }
