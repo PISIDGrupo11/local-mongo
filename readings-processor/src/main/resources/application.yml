@@ -19,7 +19,7 @@ spring:
       username: software
 
 broker:
-  uri: "tcp://localhost:1883"
+  uri: "tcp://broker.mqtt-dashboard.com:1883"
   topic1: "readings"
   topic2: "anomalies"
 
