@@ -60,8 +60,7 @@ public class ReadingsProcessorProvider {
 
     @Bean
     public IMqttClient provideMQQTCliet() throws MqttException {
-        MemoryPersistence memoryPersistence = new MemoryPersistence();
-        MqttClient mqttClient = new MqttClient(mqttServer, MqttClient.generateClientId(), memoryPersistence);
+        MqttClient mqttClient = new MqttClient(mqttServer, MqttClient.generateClientId());
         mqttClient.connect();
         return mqttClient;
     }
