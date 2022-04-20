@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class Anomalia {
@@ -13,5 +14,5 @@ public class Anomalia {
     private String IDSensor;
     private double ValorAnomalo;
     private String TipoAnomalia;
-    private LocalDateTime Hora;
+    private Date Hora;
 }
