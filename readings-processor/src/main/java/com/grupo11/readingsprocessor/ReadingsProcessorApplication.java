@@ -23,7 +23,5 @@ public class ReadingsProcessorApplication {
 
         mqttSender.send(new Medicao(334, 1, "t1", new Date(), 2.1, new Date()),
                 "readings2");
-
     }
-
 }
