@@ -43,5 +43,10 @@ public class LocalMongoDBImpl implements LocalMongoDB {
         collection.insertOne(lastSentSensorData);
     }
 
-
+    @Override
+    public FindIterable<Document> getBulkData() {
+        BasicDBObject query = new BasicDBObject();
+        MongoCollection<Document> collection = session.getCollection(localMongoDataCollection);
+        return collection.find(query).sort(new BasicDBObject("_id", 1)).limit(10);
+    }
 }

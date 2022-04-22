@@ -11,4 +11,6 @@ public interface LocalMongoDB {
     FindIterable<Document> getLastSentId();
 
     public void updateLastSentSensorData(Document lastSentSensorData);
+
+    FindIterable<Document> getBulkData();
 }

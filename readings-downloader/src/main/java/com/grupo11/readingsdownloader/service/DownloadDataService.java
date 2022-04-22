@@ -27,9 +27,7 @@ public class DownloadDataService {
     public void runService() throws InterruptedException {
 
         List<CloudSensor> cloudSensorsList = startDownloadUseCase.execute();
-
         ObjectId lastObjectId = cloudSensorsList.get(cloudSensorsList.size() - 1).getId();
-
         storeNewDataUseCase.execute(cloudSensorsList);
 
         while (true){
