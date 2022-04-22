@@ -1,5 +1,6 @@
 package com.grupo11.readingsprocessor.database.repository;
 
+import com.grupo11.readingsprocessor.database.models.Medicao;
 import com.grupo11.readingsprocessor.database.models.SensorData;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
@@ -7,7 +8,9 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class LocalMongoDBMapper {
@@ -22,6 +25,16 @@ public class LocalMongoDBMapper {
                     document.getString("Sensor"),
                     document.getString("Zona")
             ));
+        return dataList;
+    }
+
+    public List<Medicao> mapMultipleDocumentsToMedicao(FindIterable<Document> documents){
+        List<Medicao> dataList = new ArrayList<>();
+        documents.map(x -> new Medicao( x.getInteger("Zona"),
+                x.getString("Sensor"),
+                Double.parseDouble(x.getString("Medicao")),
+                x.getDate("Data")))
+                .into(dataList);
         return dataList;
     }
 

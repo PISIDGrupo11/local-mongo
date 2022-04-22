@@ -18,7 +18,7 @@ import java.util.Optional;
 @SpringBootApplication
 public class ReadingsDownloaderApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ApplicationContext ctx = SpringApplication.run(ReadingsDownloaderApplication.class, args);
 
 
