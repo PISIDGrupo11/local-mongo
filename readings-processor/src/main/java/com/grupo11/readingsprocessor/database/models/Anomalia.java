@@ -3,7 +3,6 @@ package com.grupo11.readingsprocessor.database.models;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data

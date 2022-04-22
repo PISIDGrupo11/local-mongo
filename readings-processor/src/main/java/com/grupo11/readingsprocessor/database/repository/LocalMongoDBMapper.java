@@ -8,9 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class LocalMongoDBMapper {
@@ -20,20 +18,20 @@ public class LocalMongoDBMapper {
         for (Document document : documents)
             dataList.add(new SensorData(
                     document.getObjectId("_id"),
-                    document.getString("Data"),
-                    Double.parseDouble(document.getString("Medicao")),
-                    document.getString("Sensor"),
-                    document.getString("Zona")
+                    document.getString("data"),
+                    document.getDouble("medicao"),
+                    document.getString("sensor"),
+                    document.getString("zona")
             ));
         return dataList;
     }
 
-    public List<Medicao> mapMultipleDocumentsToMedicao(FindIterable<Document> documents){
+    public List<Medicao> mapMultipleDocumentsToMedicao(FindIterable<Document> documents) {
         List<Medicao> dataList = new ArrayList<>();
-        documents.map(x -> new Medicao( x.getInteger("Zona"),
-                x.getString("Sensor"),
-                Double.parseDouble(x.getString("Medicao")),
-                x.getDate("Data")))
+        documents.map(x -> new Medicao(x.getInteger("zona"),
+                        x.getString("sensor"),
+                        Double.parseDouble(x.getString("medicao")),
+                        x.getDate("data")))
                 .into(dataList);
         return dataList;
     }

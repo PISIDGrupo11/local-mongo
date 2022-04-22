@@ -24,7 +24,7 @@ public class CloudMongoMapper {
 
     public List<CloudSensor> mapMultipleDocumentsToCloudSensor(FindIterable<Document> documents) {
         List<CloudSensor> dataList = new ArrayList<>();
-        for(Document document: documents)
+        for (Document document : documents)
             dataList.add(new CloudSensor(
                     document.getObjectId("_id"),
                     document.getString("Data"),

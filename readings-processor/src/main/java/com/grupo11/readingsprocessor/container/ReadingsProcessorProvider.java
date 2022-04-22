@@ -1,6 +1,6 @@
 package com.grupo11.readingsprocessor.container;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -9,7 +9,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -17,12 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import java.lang.reflect.Type;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class ReadingsProcessorProvider {
@@ -63,5 +56,10 @@ public class ReadingsProcessorProvider {
         MqttClient mqttClient = new MqttClient(mqttServer, MqttClient.generateClientId());
         mqttClient.connect();
         return mqttClient;
+    }
+
+    @Bean
+    public Gson provideGson() {
+        return new Gson();
     }
 }

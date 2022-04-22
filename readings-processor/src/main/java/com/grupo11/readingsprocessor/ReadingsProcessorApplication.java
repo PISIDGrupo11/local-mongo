@@ -1,7 +1,5 @@
 package com.grupo11.readingsprocessor;
 
-import com.grupo11.readingsprocessor.database.models.Medicao;
-import com.grupo11.readingsprocessor.mqtt.MQTTSender;
 import com.grupo11.readingsprocessor.mqtt.exceptions.MQTTNotConnectedException;
 import com.grupo11.readingsprocessor.service.MqttService;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -10,8 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @SpringBootApplication
 public class ReadingsProcessorApplication {

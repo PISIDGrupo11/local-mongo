@@ -2,7 +2,6 @@ package com.grupo11.readingsprocessor.database.repository;
 
 import com.grupo11.readingsprocessor.database.LocalMongoDB;
 import com.grupo11.readingsprocessor.database.exceptions.NotFoundException;
-import com.grupo11.readingsprocessor.database.models.Medicao;
 import com.grupo11.readingsprocessor.database.models.SensorData;
 import com.mongodb.client.MongoCursor;
 import lombok.AllArgsConstructor;
@@ -34,7 +33,7 @@ public class LocalMongoDBRepository {
         database.updateLastSentSensorData(mapper.mapSensorObjectIdToDocument(lastSentSensorData));
     }
 
-    public List<SensorData>  getBulkData(){
+    public List<SensorData> getBulkData() {
         return mapper.mapMultipleDocumentsToSensorData(database.getBulkData());
     }
 }

@@ -30,7 +30,7 @@ public class DownloadDataService {
         ObjectId lastObjectId = cloudSensorsList.get(cloudSensorsList.size() - 1).getId();
         storeNewDataUseCase.execute(cloudSensorsList);
 
-        while (true){
+        while (true) {
 
             Thread.sleep(2000);
             cloudSensorsList = dowloadLatestDataUseCase.execute(lastObjectId);

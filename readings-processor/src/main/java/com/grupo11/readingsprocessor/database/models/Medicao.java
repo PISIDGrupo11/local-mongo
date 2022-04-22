@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -14,7 +12,6 @@ public class Medicao {
 
     @Id
     private int Id;
-
     private int Zona;
     private String Sensor;
     private Date DataHora;
@@ -22,7 +19,7 @@ public class Medicao {
     private Date DataHoraObjectId;
 
 
-    public Medicao(int zona, String sensor,double leitura, Date dataHoraObjectId ){
+    public Medicao(int zona, String sensor, double leitura, Date dataHoraObjectId) {
         this.Zona = zona;
         this.Sensor = sensor;
         this.Leitura = leitura;

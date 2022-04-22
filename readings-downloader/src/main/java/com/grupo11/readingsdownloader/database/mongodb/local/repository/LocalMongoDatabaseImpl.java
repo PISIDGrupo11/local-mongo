@@ -13,16 +13,13 @@ import java.util.List;
 
 public class LocalMongoDatabaseImpl implements LocalMongoDatabase {
 
+    private final MongoDatabase session;
     @Value("${spring.data.mongodb.local.collections.filtered-data}")
     private String filteredDataCollection;
-
     @Value("${spring.data.mongodb.local.collections.cloudsql-backup-sensor}")
     private String cloudSQLBackupSensorCollection;
-
     @Value("${spring.data.mongodb.local.collections.cloudsql-backup-zone}")
     private String cloudSQLBackupZoneCollection;
-
-    private final MongoDatabase session;
 
     public LocalMongoDatabaseImpl(@Qualifier("local") MongoDatabase session) {
         this.session = session;

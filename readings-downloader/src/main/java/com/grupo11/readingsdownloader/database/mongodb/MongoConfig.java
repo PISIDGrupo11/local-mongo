@@ -2,10 +2,8 @@ package com.grupo11.readingsdownloader.database.mongodb;
 
 import com.grupo11.readingsdownloader.database.mongodb.cloud.repository.CloudMongoDatabase;
 import com.grupo11.readingsdownloader.database.mongodb.cloud.repository.CloudMongoDatabaseImpl;
-import com.grupo11.readingsdownloader.database.mongodb.cloud.repository.CloudMongoMapper;
 import com.grupo11.readingsdownloader.database.mongodb.local.repository.LocalMongoDatabase;
 import com.grupo11.readingsdownloader.database.mongodb.local.repository.LocalMongoDatabaseImpl;
-import com.grupo11.readingsdownloader.database.mongodb.local.repository.LocalMongoMapper;
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
