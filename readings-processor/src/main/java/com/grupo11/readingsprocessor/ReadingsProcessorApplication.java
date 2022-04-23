@@ -12,7 +12,7 @@ import java.io.IOException;
 @SpringBootApplication
 public class ReadingsProcessorApplication {
 
-    public static void main(String[] args) throws MqttException, IOException, MQTTNotConnectedException, InterruptedException {
+    public static void main(String[] args) throws MqttException, IOException, InterruptedException {
         ApplicationContext ctx = SpringApplication.run(ReadingsProcessorApplication.class, args);
 
         MqttService mqttService = ctx.getBean(MqttService.class);
