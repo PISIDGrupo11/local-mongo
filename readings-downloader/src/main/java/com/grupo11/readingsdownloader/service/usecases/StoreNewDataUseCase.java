@@ -16,6 +16,6 @@ public class StoreNewDataUseCase {
     }
 
     public void execute(List<CloudSensor> cloudSensors) {
-        localMongoRepository.insertNewFilteredData(cloudSensors);
+        localMongoRepository.insertNewRawData(cloudSensors);
     }
 }

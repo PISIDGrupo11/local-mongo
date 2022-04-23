@@ -22,31 +22,19 @@ public class LocalMongoRepository {
         this.mapper = mapper;
     }
 
-    public void insertNewFilteredData(List<CloudSensor> filteredData) {
-        database.insertNewFilteredData(filteredData.stream()
+    public void insertNewRawData(List<CloudSensor> rawData) {
+        database.insertNewRawData(rawData.stream()
                 .map(mapper::mapFilteredDataToDocument).collect(Collectors.toList()));
     }
 
-    public void insertCloudBackupZone(CloudSQLBackupZone cloudSQLBackupZone) {
-        database.insertCloudBackupZone(mapper.mapCloudBackupZoneToDocument(cloudSQLBackupZone));
+    public void insertCloudBackupZone(List<CloudSQLBackupZone> cloudSQLBackupZones) {
+        database.insertCloudBackupZone(cloudSQLBackupZones.stream()
+                .map(mapper::mapCloudBackupZoneToDocument).collect(Collectors.toList()));
     }
 
-    public CloudSQLBackupZone getCloudBackupZone(int idZona) throws NotFoundException {
-        MongoCursor<Document> cursor = database.getCloudBackupZone(idZona).cursor();
-        if (!cursor.hasNext())
-            throw new NotFoundException("CloudSQLBackupZone not found with id: " + idZona);
-        return mapper.mapDocumentToCloudBackupZone(cursor.next());
+    public void insertCloudBackupSensor(List<CloudSQLBackupSensor> cloudBackupSensors) {
+        database.insertCloudBackupSensor(cloudBackupSensors.stream()
+                .map(mapper::mapCloudBackupSensorToDocument).collect(Collectors.toList()));
     }
 
-    public void insertCloudBackupSensor(CloudSQLBackupSensor cloudBackupSensor) {
-        database.insertCloudBackupSensor(mapper.mapCloudBackupSensorToDocument(cloudBackupSensor));
-    }
-
-    public CloudSQLBackupSensor getCloudBackupSensor(int idSensor, String tipo) throws NotFoundException {
-        MongoCursor<Document> cursor = database.getCloudBackupSensor(idSensor, tipo).cursor();
-        if (!cursor.hasNext())
-            throw new NotFoundException("CloudSQLBackupSensor not found with idSensor: " + idSensor +
-                    ", tipo: " + tipo);
-        return mapper.mapDocumentToCloudBackupSensor(cursor.next());
-    }
 }
