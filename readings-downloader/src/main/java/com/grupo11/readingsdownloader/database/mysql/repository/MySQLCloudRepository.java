@@ -1,7 +1,7 @@
 package com.grupo11.readingsdownloader.database.mysql.repository;
 
-import com.grupo11.readingsdownloader.database.mysql.models.Sensor;
-import com.grupo11.readingsdownloader.database.mysql.models.Zona;
+import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupSensor;
+import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupZone;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,35 +13,31 @@ import java.util.Optional;
 public class MySQLCloudRepository implements MySQLCloudDatabase {
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Sensor> sensorRowMapper;
-    private final RowMapper<Zona> zonaRowMapper;
+    private final RowMapper<CloudSQLBackupSensor> sensorRowMapper;
+    private final RowMapper<CloudSQLBackupZone> zonaRowMapper;
 
-    public MySQLCloudRepository(JdbcTemplate jdbcTemplate, RowMapper<Sensor> sensorRowMapper,
-                                RowMapper<Zona> zonaRowMapper) {
+    public MySQLCloudRepository(JdbcTemplate jdbcTemplate, RowMapper<CloudSQLBackupSensor> sensorRowMapper,
+                                RowMapper<CloudSQLBackupZone> zonaRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.sensorRowMapper = sensorRowMapper;
         this.zonaRowMapper = zonaRowMapper;
     }
 
     @Override
-    public Optional<Sensor> getSensor(int id, String tipo) {
+    public List<CloudSQLBackupSensor> getSensors() {
         String sql = """
                 SELECT idsensor, tipo, limiteinferior, limitesuperior, idzona
-                FROM sensor
-                WHERE idsensor = ? AND tipo = ?;
+                FROM sensor;
                 """;
-        List<Sensor> sensors = jdbcTemplate.query(sql, sensorRowMapper, id, tipo);
-        return sensors.stream().findFirst();
+        return jdbcTemplate.query(sql, sensorRowMapper);
     }
 
     @Override
-    public Optional<Zona> getZona(int id) {
+    public List<CloudSQLBackupZone> getZonas() {
         String sql = """
                 SELECT idzona, temperatura, humidade, luz
-                FROM zona
-                WHERE idzona = ?;
+                FROM zona;
                 """;
-        List<Zona> zonas = jdbcTemplate.query(sql, zonaRowMapper, id);
-        return zonas.stream().findFirst();
+        return jdbcTemplate.query(sql, zonaRowMapper);
     }
 }

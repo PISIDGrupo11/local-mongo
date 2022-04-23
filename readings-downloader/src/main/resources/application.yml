@@ -9,7 +9,7 @@ spring:
         uri: mongodb://localhost:30001/LabMedicoes
         database: LabMedicoes
         collections:
-          filtered-data: filteredData
+          rawdata: rawdata
           cloudsql-backup-sensor: cloudSQLBackupSensor
           cloudsql-backup-zone: cloudSQLBackupZone
       cloud:

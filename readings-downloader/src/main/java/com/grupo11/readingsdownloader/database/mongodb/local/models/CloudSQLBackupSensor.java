@@ -14,9 +14,9 @@ public class CloudSQLBackupSensor {
     private String tipo;
     private double limiteInferior;
     private double limiteSuperior;
-    private String idZona;
+    private int idZona;
 
-    public CloudSQLBackupSensor(int idSensor, String tipo, double limiteInferior, double limiteSuperior, String idZona) {
+    public CloudSQLBackupSensor(int idSensor, String tipo, double limiteInferior, double limiteSuperior, int idZona) {
         this.idSensor = idSensor;
         this.tipo = tipo;
         this.limiteInferior = limiteInferior;

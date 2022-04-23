@@ -14,7 +14,7 @@ import java.util.List;
 public class LocalMongoDatabaseImpl implements LocalMongoDatabase {
 
     private final MongoDatabase session;
-    @Value("${spring.data.mongodb.local.collections.raw-data}")
+    @Value("${spring.data.mongodb.local.collections.rawdata}")
     private String filteredDataCollection;
     @Value("${spring.data.mongodb.local.collections.cloudsql-backup-sensor}")
     private String cloudSQLBackupSensorCollection;

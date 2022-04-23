@@ -1,12 +1,13 @@
 package com.grupo11.readingsdownloader.database.mysql.repository;
 
-import com.grupo11.readingsdownloader.database.mysql.models.Sensor;
-import com.grupo11.readingsdownloader.database.mysql.models.Zona;
+import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupSensor;
+import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupZone;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface MySQLCloudDatabase {
-    Optional<Sensor> getSensor(int id, String tipo);
 
-    Optional<Zona> getZona(int id);
+    List<CloudSQLBackupSensor> getSensors();
+
+    List<CloudSQLBackupZone> getZonas();
 }
