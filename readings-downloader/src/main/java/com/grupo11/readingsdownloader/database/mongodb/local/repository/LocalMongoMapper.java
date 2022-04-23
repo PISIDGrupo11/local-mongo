@@ -37,23 +37,4 @@ public class LocalMongoMapper {
         document.append("idZona", cloudSQLBackupSensor.getIdZona());
         return document;
     }
-
-    public CloudSQLBackupZone mapDocumentToCloudBackupZone(Document document) {
-        return new CloudSQLBackupZone(
-                document.getInteger("idZona"),
-                document.getDouble("temperatura"),
-                document.getDouble("humidade"),
-                document.getDouble("luz")
-        );
-    }
-
-    public CloudSQLBackupSensor mapDocumentToCloudBackupSensor(Document document) {
-        return new CloudSQLBackupSensor(
-                document.getInteger("idSensor"),
-                document.getString("tipo"),
-                document.getDouble("limiteInferior"),
-                document.getDouble("limiteSuperior"),
-                document.getString("idZona")
-        );
-    }
 }
