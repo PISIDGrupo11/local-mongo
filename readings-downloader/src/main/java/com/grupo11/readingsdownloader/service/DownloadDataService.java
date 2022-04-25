@@ -1,6 +1,6 @@
 package com.grupo11.readingsdownloader.service;
 
-import com.grupo11.readingsdownloader.database.mongodb.cloud.models.CloudSensor;
+import com.grupo11.readingsdownloader.database.models.CloudSensor;
 import com.grupo11.readingsdownloader.service.usecases.DowloadLatestDataUseCase;
 import com.grupo11.readingsdownloader.service.usecases.StartDownloadUseCase;
 import com.grupo11.readingsdownloader.service.usecases.StoreNewDataUseCase;

@@ -1,11 +1,9 @@
 package com.grupo11.readingsdownloader.database.mongodb.local.repository;
 
-import com.grupo11.readingsdownloader.database.exceptions.NotFoundException;
-import com.grupo11.readingsdownloader.database.mongodb.cloud.models.CloudSensor;
-import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupSensor;
-import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupZone;
-import com.mongodb.client.MongoCursor;
-import org.bson.Document;
+import com.grupo11.readingsdownloader.database.models.CloudSensor;
+import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
+import com.grupo11.readingsdownloader.database.models.CloudSQLBackupZone;
+import com.grupo11.readingsdownloader.database.mongodb.local.LocalMongoDatabase;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

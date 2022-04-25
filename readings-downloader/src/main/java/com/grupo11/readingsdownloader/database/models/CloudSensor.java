@@ -1,4 +1,4 @@
-package com.grupo11.readingsdownloader.database.mongodb.cloud.models;
+package com.grupo11.readingsdownloader.database.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

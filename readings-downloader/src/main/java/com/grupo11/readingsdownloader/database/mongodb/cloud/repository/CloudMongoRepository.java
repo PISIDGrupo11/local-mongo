@@ -1,6 +1,7 @@
 package com.grupo11.readingsdownloader.database.mongodb.cloud.repository;
 
-import com.grupo11.readingsdownloader.database.mongodb.cloud.models.CloudSensor;
+import com.grupo11.readingsdownloader.database.models.CloudSensor;
+import com.grupo11.readingsdownloader.database.mongodb.cloud.CloudMongoDatabase;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
