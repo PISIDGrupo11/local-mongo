@@ -1,13 +1,12 @@
 package com.grupo11.readingsdownloader.database.mysql.repository;
 
-import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupSensor;
-import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupZone;
+import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
+import com.grupo11.readingsdownloader.database.models.CloudSQLBackupZone;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class MySQLCloudRepository implements MySQLCloudDatabase {

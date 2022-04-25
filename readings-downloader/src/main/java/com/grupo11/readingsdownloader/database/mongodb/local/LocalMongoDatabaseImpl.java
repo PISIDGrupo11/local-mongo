@@ -1,14 +1,11 @@
-package com.grupo11.readingsdownloader.database.mongodb.local.repository;
+package com.grupo11.readingsdownloader.database.mongodb.local;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LocalMongoDatabaseImpl implements LocalMongoDatabase {

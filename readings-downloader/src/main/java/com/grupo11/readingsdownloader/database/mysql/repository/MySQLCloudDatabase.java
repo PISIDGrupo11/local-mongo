@@ -1,7 +1,7 @@
 package com.grupo11.readingsdownloader.database.mysql.repository;
 
-import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupSensor;
-import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupZone;
+import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
+import com.grupo11.readingsdownloader.database.models.CloudSQLBackupZone;
 
 import java.util.List;
 

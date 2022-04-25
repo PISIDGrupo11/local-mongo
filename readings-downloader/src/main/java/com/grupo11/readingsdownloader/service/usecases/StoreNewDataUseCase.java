@@ -1,6 +1,6 @@
 package com.grupo11.readingsdownloader.service.usecases;
 
-import com.grupo11.readingsdownloader.database.mongodb.cloud.models.CloudSensor;
+import com.grupo11.readingsdownloader.database.models.CloudSensor;
 import com.grupo11.readingsdownloader.database.mongodb.local.repository.LocalMongoRepository;
 import org.springframework.stereotype.Component;
 

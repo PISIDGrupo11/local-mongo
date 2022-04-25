@@ -1,4 +1,4 @@
-package com.grupo11.readingsdownloader.database.mongodb.local.repository;
+package com.grupo11.readingsdownloader.database.mongodb.local;
 
 import org.bson.Document;
 

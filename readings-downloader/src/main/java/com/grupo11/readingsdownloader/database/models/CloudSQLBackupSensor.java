@@ -1,4 +1,4 @@
-package com.grupo11.readingsdownloader.database.mongodb.local.models;
+package com.grupo11.readingsdownloader.database.models;
 
 import lombok.Data;
 import org.bson.types.ObjectId;

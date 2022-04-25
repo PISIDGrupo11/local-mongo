@@ -1,4 +1,4 @@
-package com.grupo11.readingsdownloader.database.mongodb.cloud.repository;
+package com.grupo11.readingsdownloader.database.mongodb.cloud;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;

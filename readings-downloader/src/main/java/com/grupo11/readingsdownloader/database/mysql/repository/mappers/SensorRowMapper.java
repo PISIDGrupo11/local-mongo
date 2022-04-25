@@ -1,6 +1,6 @@
 package com.grupo11.readingsdownloader.database.mysql.repository.mappers;
 
-import com.grupo11.readingsdownloader.database.mongodb.local.models.CloudSQLBackupSensor;
+import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
