@@ -6,6 +6,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -28,12 +29,16 @@ public class CloudMongoRepository {
         return mapper.mapFindOne(document.get());
     }
 
-    public List<CloudSensor> getMostRecentData(ObjectId objectId) {
-        return mapper.mapMultipleDocumentsToCloudSensor(database.getMostRecentData(objectId));
+    public List<Document> getMostRecentData(ObjectId objectId) {
+        List<Document> documents = new ArrayList<>();
+        database.getMostRecentData(objectId).forEach(obj -> documents.add(obj));
+        return documents;
     }
 
-    public List<CloudSensor> getBulkData() {
-        return mapper.mapMultipleDocumentsToCloudSensor(database.getBulkData());
+    public List<Document> getBulkData() {
+        List<Document> documents = new ArrayList<>();
+        database.getBulkData().forEach(obj -> documents.add(obj));
+        return documents;
     }
 
 }

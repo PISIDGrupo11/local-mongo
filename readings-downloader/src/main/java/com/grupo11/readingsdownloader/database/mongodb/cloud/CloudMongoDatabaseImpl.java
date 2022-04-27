@@ -30,12 +30,12 @@ public class CloudMongoDatabaseImpl implements CloudMongoDatabase {
     public FindIterable<Document> getMostRecentData(ObjectId objectId) {
         BasicDBObject gtQuery = new BasicDBObject();
         gtQuery.put("_id", new BasicDBObject("$gt", objectId));
-        return collection.find(gtQuery).sort(new BasicDBObject("_id", 1)).limit(10);
+        return collection.find(gtQuery).sort(new BasicDBObject("_id", 1)).limit(100);
     }
 
     @Override
     public FindIterable<Document> getBulkData() {
         BasicDBObject query = new BasicDBObject();
-        return collection.find(query).sort(new BasicDBObject("_id", 1)).limit(10);
+        return collection.find(query).sort(new BasicDBObject("_id", 1)).limit(100);
     }
 }

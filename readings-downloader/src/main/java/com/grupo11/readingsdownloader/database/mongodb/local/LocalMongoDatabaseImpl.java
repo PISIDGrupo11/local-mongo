@@ -1,5 +1,7 @@
 package com.grupo11.readingsdownloader.database.mongodb.local;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
@@ -38,5 +40,12 @@ public class LocalMongoDatabaseImpl implements LocalMongoDatabase {
     public void insertCloudBackupSensor(List<Document> cloudBackupSensor) {
         MongoCollection<Document> collection = session.getCollection(cloudSQLBackupSensorCollection);
         collection.insertMany(cloudBackupSensor);
+    }
+
+    @Override
+    public FindIterable<Document> getMostRecentObjectId() {
+        MongoCollection<Document> collection = session.getCollection(filteredDataCollection);
+        BasicDBObject query = new BasicDBObject();
+        return collection.find(query).sort(new BasicDBObject("_id", -1)).limit(1);
     }
 }

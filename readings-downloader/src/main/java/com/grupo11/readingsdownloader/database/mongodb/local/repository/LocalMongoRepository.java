@@ -4,9 +4,13 @@ import com.grupo11.readingsdownloader.database.models.CloudSensor;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupZone;
 import com.grupo11.readingsdownloader.database.mongodb.local.LocalMongoDatabase;
+import com.mongodb.client.FindIterable;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -20,9 +24,8 @@ public class LocalMongoRepository {
         this.mapper = mapper;
     }
 
-    public void insertNewRawData(List<CloudSensor> rawData) {
-        database.insertNewRawData(rawData.stream()
-                .map(mapper::mapFilteredDataToDocument).collect(Collectors.toList()));
+    public void insertNewRawData(List<Document> rawData) {
+        database.insertNewRawData(rawData);
     }
 
     public void insertCloudBackupZone(List<CloudSQLBackupZone> cloudSQLBackupZones) {
@@ -33,6 +36,11 @@ public class LocalMongoRepository {
     public void insertCloudBackupSensor(List<CloudSQLBackupSensor> cloudBackupSensors) {
         database.insertCloudBackupSensor(cloudBackupSensors.stream()
                 .map(mapper::mapCloudBackupSensorToDocument).collect(Collectors.toList()));
+    }
+
+    public Optional<ObjectId> getMostRecentObjectId() {
+        return Optional.ofNullable(database.getMostRecentObjectId().first())
+                .flatMap(document -> mapper.mapDocumentToObjectId(document));
     }
 
 }

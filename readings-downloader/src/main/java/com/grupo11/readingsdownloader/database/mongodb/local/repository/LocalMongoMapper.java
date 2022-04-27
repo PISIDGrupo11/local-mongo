@@ -4,12 +4,15 @@ import com.grupo11.readingsdownloader.database.models.CloudSensor;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupZone;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class LocalMongoMapper {
 
-    public Document mapFilteredDataToDocument(CloudSensor filteredData) {
+    public Document mapCloudSensorToDocument(CloudSensor filteredData) {
         Document document = new Document();
         document.append("_id", filteredData.getId());
         document.append("zona", filteredData.getZona());
@@ -36,5 +39,9 @@ public class LocalMongoMapper {
         document.append("limiteSuperior", cloudSQLBackupSensor.getLimiteSuperior());
         document.append("idZona", cloudSQLBackupSensor.getIdZona());
         return document;
+    }
+
+    public Optional<ObjectId> mapDocumentToObjectId(Document document) {
+        return Optional.ofNullable(document.getObjectId("_id"));
     }
 }
