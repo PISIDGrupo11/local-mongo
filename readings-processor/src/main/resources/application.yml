@@ -6,22 +6,22 @@ spring:
   data:
     mongodb:
       local:
-        uri: mongodb://localhost:30002/LabMedicoes
+        uri: mongodb://localhost:30001/LabMedicoes
         database: LabMedicoes
         collections:
-          filtered-data: filteredData
+          raw-data: rawdata
           readings-processor-timestamp-holder: readinsProcessorTimestampHolder
     mysql-pc2:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbc-url: jdbc:mysql://localhost:3307
       password: 'password'
       pool-size: 30
-      username: software
+      username: root
 
 broker:
   uri: "tcp://broker.mqtt-dashboard.com:1883"
-  topic1: "readings"
-  topic2: "anomalies"
+  topic1: "readings-grupo11"
+  topic2: "anomalies-grupo11"
 
 server:
   error:

@@ -10,8 +10,10 @@ public class Anomalia {
 
     @Id
     private int Id;
-    private String IDSensor;
+    private String Sensor;
+    private int Zona;
     private double ValorAnomalo;
     private String TipoAnomalia;
+    private String ValorRecebido;
     private Date Hora;
 }

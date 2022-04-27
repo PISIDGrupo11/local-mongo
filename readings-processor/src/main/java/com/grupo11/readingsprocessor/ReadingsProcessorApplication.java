@@ -1,5 +1,6 @@
 package com.grupo11.readingsprocessor;
 
+import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import com.grupo11.readingsprocessor.mqtt.exceptions.MQTTNotConnectedException;
 import com.grupo11.readingsprocessor.service.MqttService;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -15,8 +16,12 @@ public class ReadingsProcessorApplication {
     public static void main(String[] args) throws MqttException, IOException, InterruptedException {
         ApplicationContext ctx = SpringApplication.run(ReadingsProcessorApplication.class, args);
 
-        MqttService mqttService = ctx.getBean(MqttService.class);
+        //MqttService mqttService = ctx.getBean(MqttService.class);
 
-        mqttService.runService();
+        //mqttService.runService();
+
+        LocalMongoDBRepository repository = ctx.getBean(LocalMongoDBRepository.class);
+        var data = repository.getBulkData();
+        System.out.println(data);
     }
 }

@@ -32,7 +32,7 @@ public class PC2MysqlRepository implements PC2Mysql {
                 INSERT INTO anomalia (IDSensor, ValorAnomalo, TipoAnomalia, Hora)
                 VALUES (?, ?, ?, ?, ?);
                 """;
-        jdbcTemplate.update(query, anomalia.getIDSensor(), anomalia.getValorAnomalo(), anomalia.getTipoAnomalia(),
+        jdbcTemplate.update(query, anomalia.getSensor(), anomalia.getValorAnomalo(), anomalia.getTipoAnomalia(),
                 anomalia.getHora());
     }
 }

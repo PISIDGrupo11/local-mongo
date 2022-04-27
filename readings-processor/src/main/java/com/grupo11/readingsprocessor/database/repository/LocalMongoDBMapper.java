@@ -15,14 +15,15 @@ public class LocalMongoDBMapper {
 
     public List<SensorData> mapMultipleDocumentsToSensorData(FindIterable<Document> documents) {
         List<SensorData> dataList = new ArrayList<>();
-        for (Document document : documents)
+        for (Document document : documents) {
             dataList.add(new SensorData(
                     document.getObjectId("_id"),
-                    document.getString("data"),
-                    document.getDouble("medicao"),
-                    document.getString("sensor"),
-                    document.getString("zona")
+                    document.getString("Data"),
+                    document.getDouble("Medicao"),
+                    document.getString("Sensor"),
+                    document.getString("Zona")
             ));
+        }
         return dataList;
     }
 

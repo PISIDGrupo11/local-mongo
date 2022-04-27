@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class LocalMongoDBImpl implements LocalMongoDB {
 
     private final MongoDatabase session;
-    @Value("${spring.data.mongodb.local.collections.filtered-data}")
+    @Value("${spring.data.mongodb.local.collections.raw-data}")
     private String localMongoDataCollection;
     @Value("${spring.data.mongodb.local.collections.readings-processor-timestamp-holder}")
     private String readingsProcessorTimestampHolderCollection;
@@ -47,6 +47,6 @@ public class LocalMongoDBImpl implements LocalMongoDB {
     public FindIterable<Document> getBulkData() {
         BasicDBObject query = new BasicDBObject();
         MongoCollection<Document> collection = session.getCollection(localMongoDataCollection);
-        return collection.find(query).sort(new BasicDBObject("_id", 1)).limit(10);
+        return collection.find(query).sort(new BasicDBObject("_id", -1)).limit(10);
     }
 }
