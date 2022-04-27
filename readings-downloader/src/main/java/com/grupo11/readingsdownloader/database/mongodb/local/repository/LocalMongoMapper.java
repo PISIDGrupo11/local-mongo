@@ -1,6 +1,5 @@
 package com.grupo11.readingsdownloader.database.mongodb.local.repository;
 
-import com.grupo11.readingsdownloader.database.models.CloudSensor;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupZone;
 import org.bson.Document;
@@ -11,16 +10,6 @@ import java.util.Optional;
 
 @Component
 public class LocalMongoMapper {
-
-    public Document mapCloudSensorToDocument(CloudSensor filteredData) {
-        Document document = new Document();
-        document.append("_id", filteredData.getId());
-        document.append("zona", filteredData.getZona());
-        document.append("sensor", filteredData.getSensor());
-        document.append("data", filteredData.getData());
-        document.append("medicao", filteredData.getMedicao());
-        return document;
-    }
 
     public Document mapCloudBackupZoneToDocument(CloudSQLBackupZone cloudSQLBackupZone) {
         Document document = new Document();

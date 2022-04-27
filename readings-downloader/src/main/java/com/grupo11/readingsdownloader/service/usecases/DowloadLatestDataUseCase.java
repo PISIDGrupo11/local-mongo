@@ -1,13 +1,10 @@
 package com.grupo11.readingsdownloader.service.usecases;
 
-import com.grupo11.readingsdownloader.database.models.CloudSensor;
 import com.grupo11.readingsdownloader.database.mongodb.cloud.repository.CloudMongoRepository;
 import com.grupo11.readingsdownloader.database.mongodb.local.repository.LocalMongoRepository;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Component

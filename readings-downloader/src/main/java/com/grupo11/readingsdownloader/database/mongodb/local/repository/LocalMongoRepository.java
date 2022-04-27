@@ -1,10 +1,8 @@
 package com.grupo11.readingsdownloader.database.mongodb.local.repository;
 
-import com.grupo11.readingsdownloader.database.models.CloudSensor;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupZone;
 import com.grupo11.readingsdownloader.database.mongodb.local.LocalMongoDatabase;
-import com.mongodb.client.FindIterable;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;

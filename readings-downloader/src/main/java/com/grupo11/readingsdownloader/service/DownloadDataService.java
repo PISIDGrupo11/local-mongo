@@ -1,10 +1,7 @@
 package com.grupo11.readingsdownloader.service;
 
-import com.grupo11.readingsdownloader.database.models.CloudSensor;
 import com.grupo11.readingsdownloader.service.usecases.DowloadLatestDataUseCase;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class DownloadDataService {
