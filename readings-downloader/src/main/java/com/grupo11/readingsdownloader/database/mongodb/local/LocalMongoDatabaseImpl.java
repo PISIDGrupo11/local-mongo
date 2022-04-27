@@ -43,6 +43,13 @@ public class LocalMongoDatabaseImpl implements LocalMongoDatabase {
     }
 
     @Override
+    public FindIterable<Document> getCollectionSize(String collection) {
+        MongoCollection<Document> coll = session.getCollection(collection);
+        BasicDBObject query = new BasicDBObject();
+        return coll.find(query);
+    }
+
+    @Override
     public FindIterable<Document> getMostRecentObjectId() {
         MongoCollection<Document> collection = session.getCollection(filteredDataCollection);
         BasicDBObject query = new BasicDBObject();

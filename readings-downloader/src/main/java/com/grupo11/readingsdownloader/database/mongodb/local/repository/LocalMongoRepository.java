@@ -3,6 +3,7 @@ package com.grupo11.readingsdownloader.database.mongodb.local.repository;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupZone;
 import com.grupo11.readingsdownloader.database.mongodb.local.LocalMongoDatabase;
+import com.mongodb.client.FindIterable;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
@@ -39,6 +40,11 @@ public class LocalMongoRepository {
     public Optional<ObjectId> getMostRecentObjectId() {
         return Optional.ofNullable(database.getMostRecentObjectId().first())
                 .flatMap(document -> mapper.mapDocumentToObjectId(document));
+    }
+
+    public boolean collectionIsEmpty(String collection) {
+        FindIterable<Document> iterable = database.getCollectionSize(collection);
+        return !iterable.iterator().hasNext();
     }
 
 }
