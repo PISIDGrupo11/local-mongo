@@ -9,8 +9,7 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class LocalMongoDBMapper {
@@ -38,5 +37,17 @@ public class LocalMongoDBMapper {
         Document document = new Document();
         document.append("_id", objectId);
         return document;
+    }
+
+    public HashMap<String, Hashtable<String, Double>> collectionToHashMap(Iterable<Document> documents) {
+        HashMap<String, Hashtable<String, Double>> hashMap = new HashMap<>();
+        for (Document document : documents) {
+            String key = document.getString("tipo").toLowerCase(Locale.ROOT) + document.getString("idSensor");
+            Hashtable<String, Double> limits = new Hashtable<String, Double>();
+            limits.put("LimiteInferior", Double.parseDouble(document.getString("limiteInferior")));
+            limits.put("LimiteSuperior", Double.parseDouble(document.getString("limiteSuperior")));
+            hashMap.put(key, limits);
+        }
+        return hashMap;
     }
 }

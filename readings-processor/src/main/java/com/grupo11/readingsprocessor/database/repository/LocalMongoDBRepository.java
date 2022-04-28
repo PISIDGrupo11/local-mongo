@@ -46,22 +46,10 @@ public class LocalMongoDBRepository {
         return !iterable.iterator().hasNext();
     }
 
-    public HashMap<String,Hashtable<String,Double>> getManufactureSensorInformation(){
+    public HashMap<String, Hashtable<String, Double>> getManufactureSensorInformation() {
         FindIterable<Document> iterable = database.getManufacturingData();
-        HashMap<String, Hashtable<String,Double>> hashMap = new HashMap<>();
-
-        for(Document document : iterable){
-            String key = document.getString("tipo").toLowerCase(Locale.ROOT) + document.getString("idSensor");
-            Hashtable<String, Double> limits = new Hashtable<String, Double>();
-            limits.put("LimiteSuperor", Double.parseDouble(document.getString("limiteInferior")));
-            limits.put("LimiteInferior", Double.parseDouble(document.getString("limiteInferior")));
-            hashMap.put(key, limits);
-
-        }
-
-        return hashMap;
-
+        return mapper.collectionToHashMap(iterable);
     }
-
-
 }
+
+
