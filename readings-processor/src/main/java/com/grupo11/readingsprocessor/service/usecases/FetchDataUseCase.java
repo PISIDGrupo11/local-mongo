@@ -2,6 +2,7 @@ package com.grupo11.readingsprocessor.service.usecases;
 
 import com.grupo11.readingsprocessor.database.exceptions.NotFoundException;
 import com.grupo11.readingsprocessor.database.models.Medicao;
+import com.grupo11.readingsprocessor.database.models.RawData;
 import com.grupo11.readingsprocessor.database.models.SensorData;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class FetchDataUseCase {
         this.mongoDBRepository = mongoDBRepository;
     }
 
-    public List<SensorData> execute() throws NotFoundException {
+    public RawData execute() throws NotFoundException {
         if (mongoDBRepository.collectionIsEmpty(readingsTsHolder)) {
             return mongoDBRepository.getBulkData();
         }

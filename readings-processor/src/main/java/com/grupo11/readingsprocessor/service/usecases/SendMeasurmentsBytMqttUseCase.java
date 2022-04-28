@@ -1,5 +1,6 @@
 package com.grupo11.readingsprocessor.service.usecases;
 
+import com.grupo11.readingsprocessor.database.models.RawData;
 import com.grupo11.readingsprocessor.database.models.SensorData;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
@@ -27,8 +28,8 @@ public class SendMeasurmentsBytMqttUseCase {
         this.repository = repository;
     }
 
-    public void execute(List<SensorData> measurements) throws MqttException {
-        for (SensorData measurement : measurements) {
+    public void execute(RawData measurements) throws MqttException {
+        for (SensorData measurement : measurements.getSensorDataList()) {
             System.out.println("Sending: " + measurement);
             mqttSender.send(mapper.mapSensorDataToMedicao(measurement), readingsTopic);
             repository.updateLastSentSensorData(measurement.getId());

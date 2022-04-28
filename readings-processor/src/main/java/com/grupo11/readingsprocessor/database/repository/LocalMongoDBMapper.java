@@ -1,7 +1,9 @@
 package com.grupo11.readingsprocessor.database.repository;
 
 import com.grupo11.readingsprocessor.database.models.Medicao;
+import com.grupo11.readingsprocessor.database.models.RawData;
 import com.grupo11.readingsprocessor.database.models.SensorData;
+import com.grupo11.readingsprocessor.database.models.UnprocessableEntity;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -13,26 +15,19 @@ import java.util.List;
 @Component
 public class LocalMongoDBMapper {
 
-    public List<SensorData> mapMultipleDocumentsToSensorData(FindIterable<Document> documents) {
+    public RawData mapMultipleDocumentsToSensorData(FindIterable<Document> documents) {
         List<SensorData> dataList = new ArrayList<>();
+        List<UnprocessableEntity> unprocessableEntityList = new ArrayList<>();
         for (Document document : documents) {
             try {
                 dataList.add(new SensorData(document.getObjectId("_id"), document.getString("Data"),
                         Double.parseDouble(document.getString("Medicao")), document.getString("Sensor"),
                         document.getString("Zona")));
             } catch (Exception e) {
-                System.out.println("loles");
+                unprocessableEntityList.add(new UnprocessableEntity(document.toJson()));
             }
         }
-        return dataList;
-    }
-
-    public List<Medicao> mapMultipleDocumentsToMedicao(FindIterable<Document> documents) {
-        List<Medicao> dataList = new ArrayList<>();
-        documents.map(x -> new Medicao(x.getInteger("zona"), x.getString("sensor"),
-                        Double.parseDouble(x.getString("medicao")), x.getDate("data")))
-                .into(dataList);
-        return dataList;
+        return new RawData(dataList, unprocessableEntityList);
     }
 
     public ObjectId mapDocumentToObjectId(Document document) {

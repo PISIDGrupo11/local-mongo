@@ -2,6 +2,7 @@ package com.grupo11.readingsprocessor.database.repository;
 
 import com.grupo11.readingsprocessor.database.LocalMongoDB;
 import com.grupo11.readingsprocessor.database.exceptions.NotFoundException;
+import com.grupo11.readingsprocessor.database.models.RawData;
 import com.grupo11.readingsprocessor.database.models.SensorData;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
@@ -19,7 +20,7 @@ public class LocalMongoDBRepository {
     private final LocalMongoDB database;
     private final LocalMongoDBMapper mapper;
 
-    public List<SensorData> getMostRecentData(ObjectId objectId) {
+    public RawData getMostRecentData(ObjectId objectId) {
         return mapper.mapMultipleDocumentsToSensorData(database.getMostRecentData(objectId));
     }
 
@@ -34,7 +35,7 @@ public class LocalMongoDBRepository {
         database.updateLastSentSensorData(mapper.mapSensorObjectIdToDocument(lastSentSensorData));
     }
 
-    public List<SensorData> getBulkData() {
+    public RawData getBulkData() {
         return mapper.mapMultipleDocumentsToSensorData(database.getBulkData());
     }
 
