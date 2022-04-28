@@ -3,15 +3,12 @@ package com.grupo11.readingsprocessor.database.repository;
 import com.grupo11.readingsprocessor.database.LocalMongoDB;
 import com.grupo11.readingsprocessor.database.exceptions.NotFoundException;
 import com.grupo11.readingsprocessor.database.models.RawData;
-import com.grupo11.readingsprocessor.database.models.SensorData;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
 import lombok.AllArgsConstructor;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @AllArgsConstructor
@@ -31,7 +28,7 @@ public class LocalMongoDBRepository {
         return mapper.mapDocumentToObjectId(cursor.next());
     }
 
-    public void updateLastSentSensorData(ObjectId lastSentSensorData) {
+    public void updateLastSentObjectId(ObjectId lastSentSensorData) {
         database.updateLastSentSensorData(mapper.mapSensorObjectIdToDocument(lastSentSensorData));
     }
 

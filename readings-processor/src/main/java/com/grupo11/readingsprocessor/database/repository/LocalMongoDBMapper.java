@@ -1,6 +1,5 @@
 package com.grupo11.readingsprocessor.database.repository;
 
-import com.grupo11.readingsprocessor.database.models.Medicao;
 import com.grupo11.readingsprocessor.database.models.RawData;
 import com.grupo11.readingsprocessor.database.models.SensorData;
 import com.grupo11.readingsprocessor.database.models.UnprocessableEntity;
@@ -24,7 +23,7 @@ public class LocalMongoDBMapper {
                         Double.parseDouble(document.getString("Medicao")), document.getString("Sensor"),
                         document.getString("Zona")));
             } catch (Exception e) {
-                unprocessableEntityList.add(new UnprocessableEntity(document.toJson()));
+                unprocessableEntityList.add(new UnprocessableEntity(document.getObjectId("_id"), document.toJson()));
             }
         }
         return new RawData(dataList, unprocessableEntityList);

@@ -2,6 +2,7 @@ package com.grupo11.readingsprocessor.service.usecases;
 
 import com.grupo11.readingsprocessor.database.models.RawData;
 import com.grupo11.readingsprocessor.database.models.SensorData;
+import com.grupo11.readingsprocessor.database.models.UnprocessableEntity;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
 import com.grupo11.readingsprocessor.mqtt.MQTTSender;
@@ -9,13 +10,14 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class SendMeasurmentsBytMqttUseCase {
 
     @Value("${broker.topic1}")
     private String readingsTopic;
+
+    @Value("${broker.topic3}")
+    private String wrongFormatTopic;
 
     private final MQTTSender mqttSender;
     private final MQTTMapper mapper;
@@ -29,10 +31,15 @@ public class SendMeasurmentsBytMqttUseCase {
     }
 
     public void execute(RawData measurements) throws MqttException {
-        for (SensorData measurement : measurements.getSensorDataList()) {
-            System.out.println("Sending: " + measurement);
-            mqttSender.send(mapper.mapSensorDataToMedicao(measurement), readingsTopic);
-            repository.updateLastSentSensorData(measurement.getId());
+        for (SensorData sensorData: measurements.getSensorDataList()) {
+            System.out.println("Sending: " + sensorData);
+            mqttSender.send(mapper.mapSensorDataToMedicao(sensorData), readingsTopic);
+            repository.updateLastSentObjectId(sensorData.getId());
+        }
+        for(UnprocessableEntity entity : measurements.getUnprocessableEntityList()) {
+            System.out.println("Sending: " + entity);
+            mqttSender.send(entity, wrongFormatTopic);
+            repository.updateLastSentObjectId(entity.getObjectId());
         }
     }
 }
