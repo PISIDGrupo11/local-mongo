@@ -11,6 +11,7 @@ spring:
         collections:
           raw-data: rawdata
           readings-processor-timestamp-holder: readinsProcessorTimestampHolder
+          sensor cloudSQLBackupSensor
     mysql-pc2:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbc-url: jdbc:mysql://localhost:3307
