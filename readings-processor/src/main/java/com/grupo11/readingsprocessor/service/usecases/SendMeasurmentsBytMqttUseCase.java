@@ -1,11 +1,15 @@
 package com.grupo11.readingsprocessor.service.usecases;
 
+import com.grupo11.readingsprocessor.database.models.Medicao;
 import com.grupo11.readingsprocessor.database.models.RawData;
 import com.grupo11.readingsprocessor.database.models.SensorData;
+import com.grupo11.readingsprocessor.database.models.SensorType;
 import com.grupo11.readingsprocessor.database.models.UnprocessableEntity;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
+import com.grupo11.readingsprocessor.factory.ExponentialMovingAverageServiceFactory;
 import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
 import com.grupo11.readingsprocessor.mqtt.MQTTSender;
+import com.grupo11.readingsprocessor.service.ExponentialMovingAverageService;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,9 +35,21 @@ public class SendMeasurmentsBytMqttUseCase {
     }
 
     public void execute(RawData measurements) throws MqttException {
+        ExponentialMovingAverageServiceFactory emaServiceFactory
+            = ExponentialMovingAverageServiceFactory.getInstance();
+
         for (SensorData sensorData: measurements.getSensorDataList()) {
             System.out.println("Sending: " + sensorData);
-            mqttSender.send(mapper.mapSensorDataToMedicao(sensorData), readingsTopic);
+            Medicao reading = mapper.mapSensorDataToMedicao(sensorData);
+
+            ExponentialMovingAverageService emaService
+                = emaServiceFactory.getService(reading.getSensor());
+
+            emaService.tryReset(reading.getLeitura());
+            emaService.update(reading.getLeitura());
+            reading.setLeitura(emaService.get());
+
+            mqttSender.send(reading, readingsTopic);
             repository.updateLastSentObjectId(sensorData.getId());
         }
         for(UnprocessableEntity entity : measurements.getUnprocessableEntityList()) {
