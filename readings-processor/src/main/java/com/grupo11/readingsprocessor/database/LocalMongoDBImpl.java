@@ -27,7 +27,7 @@ public class LocalMongoDBImpl implements LocalMongoDB {
         MongoCollection<Document> collection = session.getCollection(localMongoDataCollection);
         BasicDBObject gtQuery = new BasicDBObject();
         gtQuery.put("_id", new BasicDBObject("$gt", objectId));
-        return collection.find(gtQuery).sort(new BasicDBObject("_id", 1)).limit(100);
+        return collection.find(gtQuery).sort(new BasicDBObject("_id", 1));
     }
 
     @Override
@@ -48,5 +48,12 @@ public class LocalMongoDBImpl implements LocalMongoDB {
         BasicDBObject query = new BasicDBObject();
         MongoCollection<Document> collection = session.getCollection(localMongoDataCollection);
         return collection.find(query).sort(new BasicDBObject("_id", -1)).limit(10);
+    }
+
+    @Override
+    public FindIterable<Document> getCollectionSize(String collection) {
+        MongoCollection<Document> coll = session.getCollection(collection);
+        BasicDBObject query = new BasicDBObject();
+        return coll.find(query);
     }
 }

@@ -13,4 +13,6 @@ public interface LocalMongoDB {
     public void updateLastSentSensorData(Document lastSentSensorData);
 
     FindIterable<Document> getBulkData();
+
+    FindIterable<Document> getCollectionSize(String collection);
 }

@@ -1,6 +1,7 @@
 package com.grupo11.readingsprocessor.service.usecases;
 
 import com.grupo11.readingsprocessor.database.models.SensorData;
+import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
 import com.grupo11.readingsprocessor.mqtt.MQTTSender;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -17,16 +18,20 @@ public class SendMeasurmentsBytMqttUseCase {
 
     private final MQTTSender mqttSender;
     private final MQTTMapper mapper;
+    private final LocalMongoDBRepository repository;
 
-    public SendMeasurmentsBytMqttUseCase(MQTTSender mqttSender, MQTTMapper mapper) {
+    public SendMeasurmentsBytMqttUseCase(MQTTSender mqttSender, MQTTMapper mapper,
+                                         LocalMongoDBRepository repository) {
         this.mqttSender = mqttSender;
         this.mapper = mapper;
+        this.repository = repository;
     }
 
     public void execute(List<SensorData> measurements) throws MqttException {
         for (SensorData measurement : measurements) {
             System.out.println("Sending: " + measurement);
             mqttSender.send(mapper.mapSensorDataToMedicao(measurement), readingsTopic);
+            repository.updateLastSentSensorData(measurement.getId());
         }
     }
 }

@@ -3,6 +3,7 @@ package com.grupo11.readingsprocessor.database.repository;
 import com.grupo11.readingsprocessor.database.LocalMongoDB;
 import com.grupo11.readingsprocessor.database.exceptions.NotFoundException;
 import com.grupo11.readingsprocessor.database.models.SensorData;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
 import lombok.AllArgsConstructor;
 import org.bson.Document;
@@ -35,5 +36,10 @@ public class LocalMongoDBRepository {
 
     public List<SensorData> getBulkData() {
         return mapper.mapMultipleDocumentsToSensorData(database.getBulkData());
+    }
+
+    public boolean collectionIsEmpty(String collection) {
+        FindIterable<Document> iterable = database.getCollectionSize(collection);
+        return !iterable.iterator().hasNext();
     }
 }
