@@ -24,7 +24,7 @@ public class MqttService {
     public void runService() throws MqttException, IOException, InterruptedException {
 
         List<SensorData> measurements = startDownloadUseCase.execute();
-        sendMeasurmentsBytMqttUseCase.execute(startDownloadUseCase.execute());
+        sendMeasurmentsBytMqttUseCase.execute(measurements);
         ObjectId lastObjectId = measurements.get(measurements.size() - 1).getId();
 
         while (true) {

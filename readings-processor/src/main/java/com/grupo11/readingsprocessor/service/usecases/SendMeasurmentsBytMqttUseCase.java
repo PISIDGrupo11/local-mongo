@@ -25,6 +25,7 @@ public class SendMeasurmentsBytMqttUseCase {
 
     public void execute(List<SensorData> measurements) throws MqttException {
         for (SensorData measurement : measurements) {
+            System.out.println("Sending: " + measurement);
             mqttSender.send(mapper.mapSensorDataToMedicao(measurement), readingsTopic);
         }
     }

@@ -16,23 +16,21 @@ public class LocalMongoDBMapper {
     public List<SensorData> mapMultipleDocumentsToSensorData(FindIterable<Document> documents) {
         List<SensorData> dataList = new ArrayList<>();
         for (Document document : documents) {
-            dataList.add(new SensorData(
-                    document.getObjectId("_id"),
-                    document.getString("Data"),
-                    document.getDouble("Medicao"),
-                    document.getString("Sensor"),
-                    document.getString("Zona")
-            ));
+            try {
+                dataList.add(new SensorData(document.getObjectId("_id"), document.getString("Data"),
+                        Double.parseDouble(document.getString("Medicao")), document.getString("Sensor"),
+                        document.getString("Zona")));
+            } catch (Exception e) {
+                System.out.println("loles");
+            }
         }
         return dataList;
     }
 
     public List<Medicao> mapMultipleDocumentsToMedicao(FindIterable<Document> documents) {
         List<Medicao> dataList = new ArrayList<>();
-        documents.map(x -> new Medicao(x.getInteger("zona"),
-                        x.getString("sensor"),
-                        Double.parseDouble(x.getString("medicao")),
-                        x.getDate("data")))
+        documents.map(x -> new Medicao(x.getInteger("zona"), x.getString("sensor"),
+                        Double.parseDouble(x.getString("medicao")), x.getDate("data")))
                 .into(dataList);
         return dataList;
     }

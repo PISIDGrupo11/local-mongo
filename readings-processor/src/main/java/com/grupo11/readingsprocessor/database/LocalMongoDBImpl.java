@@ -27,7 +27,7 @@ public class LocalMongoDBImpl implements LocalMongoDB {
         MongoCollection<Document> collection = session.getCollection(localMongoDataCollection);
         BasicDBObject gtQuery = new BasicDBObject();
         gtQuery.put("_id", new BasicDBObject("$gt", objectId));
-        return collection.find(gtQuery).sort(new BasicDBObject("_id", 1));
+        return collection.find(gtQuery).sort(new BasicDBObject("_id", 1)).limit(100);
     }
 
     @Override
