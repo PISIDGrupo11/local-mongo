@@ -41,10 +41,10 @@ public class LocalMongoDBMapper {
     public HashMap<String, Hashtable<String, Double>> collectionToHashMap(Iterable<Document> documents) {
         HashMap<String, Hashtable<String, Double>> hashMap = new HashMap<>();
         for (Document document : documents) {
-            String key = document.getString("tipo").toLowerCase(Locale.ROOT) + document.getString("idSensor");
+            String key = document.getString("tipo").toLowerCase(Locale.ROOT) + document.getInteger("idSensor");
             Hashtable<String, Double> limits = new Hashtable<String, Double>();
-            limits.put("LimiteInferior", Double.parseDouble(document.getString("limiteInferior")));
-            limits.put("LimiteSuperior", Double.parseDouble(document.getString("limiteSuperior")));
+            limits.put("LimiteInferior", document.getDouble("limiteInferior"));
+            limits.put("LimiteSuperior", document.getDouble("limiteSuperior"));
             hashMap.put(key, limits);
         }
         return hashMap;

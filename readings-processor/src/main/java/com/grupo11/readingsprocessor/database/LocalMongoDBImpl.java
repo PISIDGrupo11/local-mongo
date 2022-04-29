@@ -18,7 +18,7 @@ public class LocalMongoDBImpl implements LocalMongoDB {
     @Value("${spring.data.mongodb.local.collections.readings-processor-timestamp-holder}")
     private String readingsProcessorTimestampHolderCollection;
 
-    @Value("${spring.data.mongodb.local.collections.manufacturing-data")
+    @Value("${spring.data.mongodb.local.collections.sensor-manufactured-info}")
     private String manufacturingSensorDataCollection;
 
     public LocalMongoDBImpl(MongoDatabase session) {

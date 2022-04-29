@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Locale;
 
 @Component
 public class ManufacturingErrorDetection {
@@ -29,8 +30,8 @@ public class ManufacturingErrorDetection {
         HashMap<String, Hashtable<String, Double>> mapManufactureSensorData = localMongoDBRepository.
                                                                                     getManufactureSensorInformation();
 
-        if(sensorData.getMedicao() < mapManufactureSensorData.get(sensorData.getSensor()).get("LimiteSuperior")
-            || sensorData.getMedicao() > mapManufactureSensorData.get(sensorData.getSensor()).get("LimiteInferior")){
+        if(sensorData.getMedicao() < mapManufactureSensorData.get(sensorData.getSensor().toLowerCase(Locale.ROOT)).get("LimiteSuperior")
+            && sensorData.getMedicao() > mapManufactureSensorData.get(sensorData.getSensor().toLowerCase(Locale.ROOT)).get("LimiteInferior")){
 
             return new FilterSensorData(SensorDataClassification.ManufactureAnomaly,sensorData, MQTTANOMALYTOPIC);
         }
