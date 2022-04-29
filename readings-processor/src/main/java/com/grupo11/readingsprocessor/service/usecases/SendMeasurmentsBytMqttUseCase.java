@@ -1,10 +1,7 @@
 package com.grupo11.readingsprocessor.service.usecases;
 
-import com.grupo11.readingsprocessor.database.models.Medicao;
-import com.grupo11.readingsprocessor.database.models.RawData;
-import com.grupo11.readingsprocessor.database.models.SensorData;
-import com.grupo11.readingsprocessor.database.models.SensorType;
-import com.grupo11.readingsprocessor.database.models.UnprocessableEntity;
+import com.grupo11.readingsprocessor.FilterSensorData;
+import com.grupo11.readingsprocessor.database.models.*;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import com.grupo11.readingsprocessor.factory.ExponentialMovingAverageServiceFactory;
 import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
@@ -27,11 +24,15 @@ public class SendMeasurmentsBytMqttUseCase {
     private final MQTTMapper mapper;
     private final LocalMongoDBRepository repository;
 
+    private final ManufacturingErrorDetection manufacturingErrorDetection;
+
     public SendMeasurmentsBytMqttUseCase(MQTTSender mqttSender, MQTTMapper mapper,
-                                         LocalMongoDBRepository repository) {
+                                         LocalMongoDBRepository repository,
+                                         ManufacturingErrorDetection manufacturingErrorDetection) {
         this.mqttSender = mqttSender;
         this.mapper = mapper;
         this.repository = repository;
+        this.manufacturingErrorDetection = manufacturingErrorDetection;
     }
 
     public void execute(RawData measurements) throws MqttException {
@@ -40,17 +41,21 @@ public class SendMeasurmentsBytMqttUseCase {
 
         for (SensorData sensorData: measurements.getSensorDataList()) {
             System.out.println("Sending: " + sensorData);
-            Medicao reading = mapper.mapSensorDataToMedicao(sensorData);
 
-            ExponentialMovingAverageService emaService
-                = emaServiceFactory.getService(reading.getSensor());
+            FilterSensorData filterSensorData = manufacturingErrorDetection.execute(sensorData);
+            if(filterSensorData.getClassification().compareTo(SensorDataClassification.NormalMeasurement) > 0){
+                Medicao reading = mapper.mapSensorDataToMedicao(filterSensorData.getSensorData());
+                ExponentialMovingAverageService emaService
+                        = emaServiceFactory.getService(reading.getSensor());
 
-            emaService.tryReset(reading.getLeitura());
-            emaService.update(reading.getLeitura());
-            reading.setLeitura(emaService.get());
+                emaService.tryReset(reading.getLeitura());
+                emaService.update(reading.getLeitura());
+                reading.setLeitura(emaService.get());
 
-            mqttSender.send(reading, readingsTopic);
-            repository.updateLastSentObjectId(sensorData.getId());
+                mqttSender.send(reading, readingsTopic);
+                repository.updateLastSentObjectId(sensorData.getId());
+            }
+
         }
         for(UnprocessableEntity entity : measurements.getUnprocessableEntityList()) {
             System.out.println("Sending: " + entity);

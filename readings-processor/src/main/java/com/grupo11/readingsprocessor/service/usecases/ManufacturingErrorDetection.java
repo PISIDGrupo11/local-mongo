@@ -2,6 +2,7 @@ package com.grupo11.readingsprocessor.service.usecases;
 
 import com.grupo11.readingsprocessor.FilterSensorData;
 import com.grupo11.readingsprocessor.database.models.SensorData;
+import com.grupo11.readingsprocessor.database.models.SensorDataClassification;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -10,21 +11,17 @@ import java.util.HashMap;
 import java.util.Hashtable;
 
 @Component
-public class FilterData {
+public class ManufacturingErrorDetection {
 
-    @Value("${datatype.anomaly}")
-    private String ANOMALY;
     @Value("${broker.topic2}")
     private String MQTTANOMALYTOPIC;
-    @Value("${datatype.measurement")
-    private String MEASUREMENT;
     @Value("${broker.topic1}")
     private String MQTTMEASUREMENTTOPIC;
 
 
-    private LocalMongoDBRepository localMongoDBRepository;
+    private final LocalMongoDBRepository localMongoDBRepository;
 
-    public FilterData(LocalMongoDBRepository localMongoDBRepository){
+    public ManufacturingErrorDetection(LocalMongoDBRepository localMongoDBRepository){
         this.localMongoDBRepository = localMongoDBRepository;
     }
 
@@ -35,10 +32,10 @@ public class FilterData {
         if(sensorData.getMedicao() < mapManufactureSensorData.get(sensorData.getSensor()).get("LimiteSuperior")
             || sensorData.getMedicao() > mapManufactureSensorData.get(sensorData.getSensor()).get("LimiteInferior")){
 
-            return new FilterSensorData(ANOMALY,sensorData, MQTTANOMALYTOPIC);
+            return new FilterSensorData(SensorDataClassification.ManufactureAnomaly,sensorData, MQTTANOMALYTOPIC);
         }
         else{
-            return new FilterSensorData(MEASUREMENT,sensorData,MQTTMEASUREMENTTOPIC);
+            return new FilterSensorData(SensorDataClassification.NormalMeasurement,sensorData,MQTTMEASUREMENTTOPIC);
         }
     }
 }
