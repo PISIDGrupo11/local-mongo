@@ -23,6 +23,7 @@ broker:
   uri: "tcp://broker.mqtt-dashboard.com:1883"
   topic1: "readings-grupo11"
   topic2: "anomalies-grupo11"
+  topic3: "wrong-format-payload-grupo11"
 
 datatype:
   anomaly: "anomalia"

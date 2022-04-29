@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.grupo11.readingsprocessor.database.models.Medicao;
 import com.grupo11.readingsprocessor.database.models.SensorData;
 import org.bson.Document;
+import com.grupo11.readingsprocessor.database.models.SensorType;
 import org.springframework.stereotype.Component;
-
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Hashtable;

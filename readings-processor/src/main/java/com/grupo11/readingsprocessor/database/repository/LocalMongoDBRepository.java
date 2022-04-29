@@ -12,9 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.List;
-import java.util.Locale;
-
 @Repository
 @AllArgsConstructor
 public class LocalMongoDBRepository {
@@ -33,7 +30,7 @@ public class LocalMongoDBRepository {
         return mapper.mapDocumentToObjectId(cursor.next());
     }
 
-    public void updateLastSentSensorData(ObjectId lastSentSensorData) {
+    public void updateLastSentObjectId(ObjectId lastSentSensorData) {
         database.updateLastSentSensorData(mapper.mapSensorObjectIdToDocument(lastSentSensorData));
     }
 
