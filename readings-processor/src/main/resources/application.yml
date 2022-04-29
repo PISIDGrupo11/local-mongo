@@ -24,6 +24,11 @@ broker:
   topic1: "readings-grupo11"
   topic2: "anomalies-grupo11"
 
+datatype:
+  anomaly: "anomalia"
+  measurement: "medicao"
+  unprocessable: "unprocessableEntity"
+
 server:
   error:
     include-binding-errors: always
