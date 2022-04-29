@@ -31,16 +31,18 @@ public final class ExponentialMovingAverageService {
 
     switch (_sensorType) {
       case Humidity:
-        _alpha = EmaSensorAlpha.Humidity;
+        _alpha = EmaSensorAlpha.HUMIDITY;
         break;
       case Temperature:
-        _alpha = EmaSensorAlpha.Temperature;
+        _alpha = EmaSensorAlpha.TEMPERATURE;
         break;
       case Luminosity:
-        _alpha = EmaSensorAlpha.Luminosity;
+        _alpha = EmaSensorAlpha.LUMINOSITY;
         break;
       default:
         throw new IllegalArgumentException("SensorType value is invalid");
     }
+
+    System.out.println(sensorType + " alpha value set to " + _alpha);
   }
 }
