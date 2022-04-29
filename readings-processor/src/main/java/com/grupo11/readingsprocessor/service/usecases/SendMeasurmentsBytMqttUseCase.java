@@ -52,10 +52,14 @@ public class SendMeasurmentsBytMqttUseCase {
                 emaService.update(reading.getLeitura());
                 reading.setLeitura(emaService.get());
 
-                mqttSender.send(reading, readingsTopic);
+                mqttSender.send(reading, filterSensorData.getMqttTopic());
                 repository.updateLastSentObjectId(sensorData.getId());
             }
-
+            else if(filterSensorData.getClassification().compareTo(SensorDataClassification.ManufactureAnomaly) > 0){
+                Anomalia anomaly = mapper.mapSensorDataToAnomalia(filterSensorData.getSensorData(),
+                        AnomalyType.SensorFailure.anomalyType);
+                mqttSender.send(anomaly, filterSensorData.getMqttTopic());
+            }
         }
         for(UnprocessableEntity entity : measurements.getUnprocessableEntityList()) {
             System.out.println("Sending: " + entity);
