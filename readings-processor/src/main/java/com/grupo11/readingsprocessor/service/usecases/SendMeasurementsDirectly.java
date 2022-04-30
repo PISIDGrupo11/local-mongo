@@ -25,6 +25,7 @@ public class SendMeasurementsDirectly {
     private final MQTTMapper mapper;
     private final LocalMongoDBRepository repository;
     private final ManufacturingErrorDetection manufacturingErrorDetection;
+    private double leitura;
 
     public SendMeasurementsDirectly(PC2MysqlRepository pc2MysqlRepository, MQTTMapper mapper,
                                     LocalMongoDBRepository repository,
@@ -63,13 +64,13 @@ public class SendMeasurementsDirectly {
 
     private void sendMedicao(ExponentialMovingAverageServiceFactory emaServiceFactory,
                              FilterSensorData filterSensorData) throws MqttException {
-        System.out.println("Sending: " + filterSensorData);
+        System.out.println("Sending: " + filterSensorData.getSensorData());
         Medicao reading = mapper.mapSensorDataToMedicao(filterSensorData.getSensorData());
 
         ExponentialMovingAverageService emaService
                 = emaServiceFactory.getService(reading.getSensor());
 
-        emaService.tryReset(reading.getLeitura());
+        emaService.tryReset(leitura);
         emaService.update(reading.getLeitura());
         reading.setLeitura(emaService.get());
 
@@ -79,7 +80,7 @@ public class SendMeasurementsDirectly {
 
     private void sendAnomaly(ExponentialMovingAverageServiceFactory emaServiceFactory,
                              FilterSensorData filterSensorData) throws MqttException {
-        System.out.println("Sending: " + filterSensorData);
+        System.out.println("Sending: " + filterSensorData.getSensorData());
         Anomalia reading = mapper.mapSensorDataToAnomalia(filterSensorData.getSensorData(),
                 AnomalyType.SensorFailure.anomalyType);
 

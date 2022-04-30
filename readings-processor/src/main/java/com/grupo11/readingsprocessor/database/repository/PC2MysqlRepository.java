@@ -23,18 +23,30 @@ public class PC2MysqlRepository implements PC2Mysql {
                 INSERT INTO medicao (Zona, Sensor, DataHora, Leitura, DataHoraObjectId)
                 VALUES (?, ?, ?, ?, ?);
                 """;
-        jdbcTemplate.update(query, medicao.getZona(), medicao.getSensor(), medicao.getDataHora(),
-                medicao.getLeitura(), medicao.getDataHoraObjectId());
+
+        try {
+            jdbcTemplate.update(query, medicao.getZona(), medicao.getSensor(), medicao.getDataHora(),
+                    medicao.getLeitura(), medicao.getDataHoraObjectId());
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public void insertAnomalia(Anomalia anomalia) {
         String query = """
-                INSERT INTO anomalia (IDSensor, ValorAnomalo, TipoAnomalia, Hora)
-                VALUES (?, ?, ?, ?, ?);
+                INSERT INTO anomalia (Sensor,Zona, ValorAnomalo, TipoAnomalia, PayloadRecebido, Hora)
+                VALUES (?,?, ?, ?, ?, ?);
                 """;
-        jdbcTemplate.update(query, anomalia.getSensor(), anomalia.getValorAnomalo(), anomalia.getTipoAnomalia(),
-                anomalia.getHora());
+
+        try {
+            jdbcTemplate.update(query, anomalia.getSensor(),anomalia.getZona(), anomalia.getValorAnomalo(),
+                    anomalia.getTipoAnomalia(),anomalia.getValorAnomalo(), anomalia.getHora());
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     @Override
     public void insertUnprocessableEntity(UnprocessableEntity unprocessable) {

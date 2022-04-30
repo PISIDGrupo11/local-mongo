@@ -62,4 +62,6 @@ public class ReadingsProcessorProvider {
     public Gson provideGson() {
         return new Gson();
     }
+
+
 }

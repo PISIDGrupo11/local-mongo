@@ -18,10 +18,10 @@ public class ReadingsProcessorApplication {
     public static void main(String[] args) throws MqttException, IOException, InterruptedException, NotFoundException {
         ApplicationContext ctx = SpringApplication.run(ReadingsProcessorApplication.class, args);
 
-        MqttService mqttService = ctx.getBean(MqttService.class);
-        mqttService.runService();
-        /*DirectService directService=ctx.getBean(DirectService.class);
-        directService.runService();*/
+        /*MqttService mqttService = ctx.getBean(MqttService.class);
+        mqttService.runService();*/
+        DirectService directService=ctx.getBean(DirectService.class);
+        directService.runService();
 
     }
 }
