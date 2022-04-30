@@ -26,9 +26,8 @@ public class ManufacturingErrorDetection {
         this.localMongoDBRepository = localMongoDBRepository;
     }
 
-    public FilterSensorData execute(SensorData sensorData){
-        HashMap<String, Hashtable<String, Double>> mapManufactureSensorData = localMongoDBRepository.
-                                                                                    getManufactureSensorInformation();
+    public FilterSensorData execute(SensorData sensorData,
+                                    HashMap<String, Hashtable<String, Double>> mapManufactureSensorData){
 
         if(sensorData.getMedicao() < mapManufactureSensorData.get(sensorData.getSensor().toLowerCase(Locale.ROOT)).
                 get("LimiteInferior")

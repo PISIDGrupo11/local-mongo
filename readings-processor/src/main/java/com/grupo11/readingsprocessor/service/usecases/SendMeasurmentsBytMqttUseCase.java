@@ -11,6 +11,9 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Hashtable;
+
 @Component
 public class SendMeasurmentsBytMqttUseCase {
 
@@ -26,6 +29,7 @@ public class SendMeasurmentsBytMqttUseCase {
 
     private final ManufacturingErrorDetection manufacturingErrorDetection;
 
+
     public SendMeasurmentsBytMqttUseCase(MQTTSender mqttSender, MQTTMapper mapper,
                                          LocalMongoDBRepository repository,
                                          ManufacturingErrorDetection manufacturingErrorDetection) {
@@ -35,19 +39,20 @@ public class SendMeasurmentsBytMqttUseCase {
         this.manufacturingErrorDetection = manufacturingErrorDetection;
     }
 
-    public void execute(RawData measurements) throws MqttException {
+    public void execute(RawData measurements, HashMap<String, Hashtable<String, Double>> mapManufactureSensorData)
+            throws MqttException {
         ExponentialMovingAverageServiceFactory emaServiceFactory
             = ExponentialMovingAverageServiceFactory.getInstance();
 
         for (SensorData sensorData: measurements.getSensorDataList()) {
 
-            FilterSensorData filterSensorData = manufacturingErrorDetection.execute(sensorData);
+            FilterSensorData filterSensorData = manufacturingErrorDetection.execute(sensorData, mapManufactureSensorData);
             if(filterSensorData.getClassification().equals(SensorDataClassification.NormalMeasurement)){
 
                 sendMedicao(emaServiceFactory, filterSensorData);
             }
             else if(filterSensorData.getClassification().equals(SensorDataClassification.ManufactureAnomaly)){
-                sendAnomaly(emaServiceFactory, filterSensorData);
+                sendAnomaly(filterSensorData);
             }
         }
         for(UnprocessableEntity entity : measurements.getUnprocessableEntityList()) {
@@ -77,23 +82,12 @@ public class SendMeasurmentsBytMqttUseCase {
         repository.updateLastSentObjectId(filterSensorData.getSensorData().getId());
     }
 
-    private void sendAnomaly(ExponentialMovingAverageServiceFactory emaServiceFactory,
-                             FilterSensorData filterSensorData)  throws MqttException{
+    private void sendAnomaly(FilterSensorData filterSensorData)  throws MqttException {
         System.out.println("Sending: " + filterSensorData);
         Anomalia reading = mapper.mapSensorDataToAnomalia(filterSensorData.getSensorData(),
                 AnomalyType.SensorFailure.anomalyType);
-
-        ExponentialMovingAverageService emaService
-                = emaServiceFactory.getService(reading.getSensor());
-
-        emaService.tryReset(reading.getValorAnomalo());
-        emaService.update(reading.getValorAnomalo());
-        reading.setValorAnomalo(emaService.get());
-
         mqttSender.send(reading, filterSensorData.getMqttTopic());
         repository.updateLastSentObjectId(filterSensorData.getSensorData().getId());
 
     }
-
-
 }
