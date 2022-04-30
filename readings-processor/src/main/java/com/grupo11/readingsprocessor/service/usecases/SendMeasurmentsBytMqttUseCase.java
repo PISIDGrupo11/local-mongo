@@ -43,8 +43,8 @@ public class SendMeasurmentsBytMqttUseCase {
 
 
             FilterSensorData filterSensorData = manufacturingErrorDetection.execute(sensorData);
-            System.out.println("Sending: " + filterSensorData);
-            if(filterSensorData.getClassification().compareTo(SensorDataClassification.NormalMeasurement) > 0){
+            if(filterSensorData.getClassification().equals(SensorDataClassification.NormalMeasurement)){
+                System.out.println("Sending: Medicao " + filterSensorData);
                 Medicao reading = mapper.mapSensorDataToMedicao(filterSensorData.getSensorData());
                 ExponentialMovingAverageService emaService
                         = emaServiceFactory.getService(reading.getSensor());
@@ -56,8 +56,8 @@ public class SendMeasurmentsBytMqttUseCase {
                 mqttSender.send(reading, filterSensorData.getMqttTopic());
                 repository.updateLastSentObjectId(sensorData.getId());
             }
-            else if(filterSensorData.getClassification().compareTo(SensorDataClassification.ManufactureAnomaly) > 0){
-                System.out.println("Sending: " + filterSensorData);
+            else if(filterSensorData.getClassification().equals(SensorDataClassification.ManufactureAnomaly)){
+                System.out.println("Sending: Anomaly " + filterSensorData);
                 Anomalia anomaly = mapper.mapSensorDataToAnomalia(filterSensorData.getSensorData(),
                         AnomalyType.SensorFailure.anomalyType);
                 mqttSender.send(anomaly, filterSensorData.getMqttTopic());

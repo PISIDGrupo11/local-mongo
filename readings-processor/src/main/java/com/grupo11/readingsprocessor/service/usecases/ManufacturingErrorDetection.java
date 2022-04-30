@@ -30,8 +30,10 @@ public class ManufacturingErrorDetection {
         HashMap<String, Hashtable<String, Double>> mapManufactureSensorData = localMongoDBRepository.
                                                                                     getManufactureSensorInformation();
 
-        if(sensorData.getMedicao() < mapManufactureSensorData.get(sensorData.getSensor().toLowerCase(Locale.ROOT)).get("LimiteSuperior")
-            && sensorData.getMedicao() > mapManufactureSensorData.get(sensorData.getSensor().toLowerCase(Locale.ROOT)).get("LimiteInferior")){
+        if(sensorData.getMedicao() < mapManufactureSensorData.get(sensorData.getSensor().toLowerCase(Locale.ROOT)).
+                get("LimiteInferior")
+            || sensorData.getMedicao() > mapManufactureSensorData.get(sensorData.getSensor().toLowerCase(Locale.ROOT))
+                .get("LimiteSuperior")){
 
             return new FilterSensorData(SensorDataClassification.ManufactureAnomaly,sensorData, MQTTANOMALYTOPIC);
         }
