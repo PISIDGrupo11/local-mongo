@@ -36,6 +36,6 @@ public class CloudMongoDatabaseImpl implements CloudMongoDatabase {
     @Override
     public FindIterable<Document> getBulkData() {
         BasicDBObject query = new BasicDBObject();
-        return collection.find(query).sort(new BasicDBObject("_id", 1)).limit(100);
+        return collection.find(query).sort(new BasicDBObject("_id", -1)).limit(100);
     }
 }
