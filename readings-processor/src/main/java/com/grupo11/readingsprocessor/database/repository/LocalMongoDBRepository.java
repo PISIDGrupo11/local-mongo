@@ -10,6 +10,8 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.Hashtable;
 @Repository
 @AllArgsConstructor
 public class LocalMongoDBRepository {
@@ -40,4 +42,11 @@ public class LocalMongoDBRepository {
         FindIterable<Document> iterable = database.getCollectionSize(collection);
         return !iterable.iterator().hasNext();
     }
+
+    public HashMap<String, Hashtable<String, Double>> getManufactureSensorInformation() {
+        FindIterable<Document> iterable = database.getManufacturingData();
+        return mapper.collectionToHashMap(iterable);
+    }
 }
+
+

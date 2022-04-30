@@ -18,6 +18,9 @@ public class LocalMongoDBImpl implements LocalMongoDB {
     @Value("${spring.data.mongodb.local.collections.readings-processor-timestamp-holder}")
     private String readingsProcessorTimestampHolderCollection;
 
+    @Value("${spring.data.mongodb.local.collections.sensor-manufactured-info}")
+    private String manufacturingSensorDataCollection;
+
     public LocalMongoDBImpl(MongoDatabase session) {
         this.session = session;
     }
@@ -55,5 +58,11 @@ public class LocalMongoDBImpl implements LocalMongoDB {
         MongoCollection<Document> coll = session.getCollection(collection);
         BasicDBObject query = new BasicDBObject();
         return coll.find(query);
+    }
+
+    @Override
+    public FindIterable<Document> getManufacturingData() {
+        MongoCollection<Document> coll = session.getCollection(manufacturingSensorDataCollection);
+        return coll.find();
     }
 }

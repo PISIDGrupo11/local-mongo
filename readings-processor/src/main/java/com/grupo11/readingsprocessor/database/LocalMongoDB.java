@@ -15,4 +15,6 @@ public interface LocalMongoDB {
     FindIterable<Document> getBulkData();
 
     FindIterable<Document> getCollectionSize(String collection);
+
+    FindIterable<Document> getManufacturingData();
 }

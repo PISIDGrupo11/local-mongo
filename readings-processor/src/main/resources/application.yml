@@ -11,6 +11,7 @@ spring:
         collections:
           raw-data: rawdata
           readings-processor-timestamp-holder: readinsProcessorTimestampHolder
+          sensor-manufactured-info: cloudSQLBackupSensor
     mysql-pc2:
       driver-class-name: com.mysql.cj.jdbc.Driver
       jdbc-url: jdbc:mysql://localhost:3307
@@ -23,6 +24,11 @@ broker:
   topic1: "readings-grupo11"
   topic2: "anomalies-grupo11"
   topic3: "wrong-format-payload-grupo11"
+
+datatype:
+  anomaly: "anomalia"
+  measurement: "medicao"
+  unprocessable: "unprocessableEntity"
 
 server:
   error:

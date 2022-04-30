@@ -20,8 +20,6 @@ public class ReadingsProcessorApplication {
         MqttService mqttService = ctx.getBean(MqttService.class);
         mqttService.runService();
 
-        //LocalMongoDBRepository repository = ctx.getBean(LocalMongoDBRepository.class);
-        //var data = repository.getBulkData();
-        //System.out.println(data);
+
     }
 }
