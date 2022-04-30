@@ -8,4 +8,8 @@ services:
       - ~/mongors/data1:/data/db
       - ./scripts/rs-init.sh:/scripts/rs-init.sh
     ports:
+<<<<<<< Updated upstream
       - "30001:27017"
+=======
+      - "30001:27017"
+>>>>>>> Stashed changes

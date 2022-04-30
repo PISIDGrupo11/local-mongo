@@ -1,30 +1,27 @@
 package com.grupo11.readingsprocessor.service;
 
 import com.grupo11.readingsprocessor.database.exceptions.NotFoundException;
-import com.grupo11.readingsprocessor.database.models.SensorData;
 import com.grupo11.readingsprocessor.service.usecases.FetchDataUseCase;
+import com.grupo11.readingsprocessor.service.usecases.SendMeasurementsDirectly;
 import com.grupo11.readingsprocessor.service.usecases.SendMeasurmentsBytMqttUseCase;
+import com.zaxxer.hikari.pool.HikariProxyPreparedStatement;
 import lombok.AllArgsConstructor;
-import org.bson.types.ObjectId;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 
-@Service
 @AllArgsConstructor
-public class MqttService {
-
+@Service
+public class DirectService {
     private final FetchDataUseCase fetchDataUseCase;
-    private final SendMeasurmentsBytMqttUseCase sendMeasurmentsBytMqttUseCase;
+    private final SendMeasurementsDirectly sendMeasurementsdirectly;
 
 
     public void runService() throws MqttException, IOException, InterruptedException, NotFoundException {
 
         while (true) {
-
-            sendMeasurmentsBytMqttUseCase.execute(fetchDataUseCase.execute());
+            sendMeasurementsdirectly.execute(fetchDataUseCase.execute());
             Thread.sleep(2000);
         }
     }
