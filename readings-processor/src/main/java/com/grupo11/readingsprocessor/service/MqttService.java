@@ -2,6 +2,7 @@ package com.grupo11.readingsprocessor.service;
 
 import com.grupo11.readingsprocessor.database.exceptions.NotFoundException;
 import com.grupo11.readingsprocessor.database.models.SensorData;
+import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import com.grupo11.readingsprocessor.service.usecases.FetchDataUseCase;
 import com.grupo11.readingsprocessor.service.usecases.SendMeasurmentsBytMqttUseCase;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,10 @@ public class MqttService {
     private final FetchDataUseCase fetchDataUseCase;
     private final SendMeasurmentsBytMqttUseCase sendMeasurmentsBytMqttUseCase;
 
+    private final LocalMongoDBRepository localMongoDBRepository;
 
-    public void runService() throws MqttException, IOException, InterruptedException, NotFoundException {
+
+    public void runService() throws MqttException, InterruptedException, NotFoundException {
 
         while (true) {
             sendMeasurmentsBytMqttUseCase.execute(fetchDataUseCase.execute());
