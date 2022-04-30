@@ -64,9 +64,30 @@ public class SendMeasurmentsBytMqttUseCase {
             }
         }
         for(UnprocessableEntity entity : measurements.getUnprocessableEntityList()) {
-            System.out.println("Sending: " + entity);
-            mqttSender.send(entity, wrongFormatTopic);
-            repository.updateLastSentObjectId(entity.getObjectId());
+            sendUnprocessableEntity(entity);
         }
     }
+
+
+    private void sendUnprocessableEntity(UnprocessableEntity entity) throws MqttException {
+        System.out.println("Sending: " + entity);
+        mqttSender.send(entity, wrongFormatTopic);
+        repository.updateLastSentObjectId(entity.getObjectId());
+    }
+
+    private void sendMedicao(ExponentialMovingAverageServiceFactory emaServiceFactory, SensorData sensorData) throws MqttException {
+        System.out.println("Sending: " + sensorData);
+        Medicao reading = mapper.mapSensorDataToMedicao(sensorData);
+
+        ExponentialMovingAverageService emaService
+            = emaServiceFactory.getService(reading.getSensor());
+
+        emaService.tryReset(reading.getLeitura());
+        emaService.update(reading.getLeitura());
+        reading.setLeitura(emaService.get());
+
+        mqttSender.send(reading, readingsTopic);
+        repository.updateLastSentObjectId(sensorData.getId());
+    }
+
 }
