@@ -11,6 +11,8 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 @Service
@@ -25,8 +27,11 @@ public class MqttService {
 
     public void runService() throws MqttException, InterruptedException, NotFoundException {
 
+        HashMap<String, Hashtable<String, Double>> mapManufactureSensorData = localMongoDBRepository.
+                getManufactureSensorInformation();
+
         while (true) {
-            sendMeasurmentsBytMqttUseCase.execute(fetchDataUseCase.execute());
+            sendMeasurmentsBytMqttUseCase.execute(fetchDataUseCase.execute(), mapManufactureSensorData);
             Thread.sleep(2000);
         }
     }
