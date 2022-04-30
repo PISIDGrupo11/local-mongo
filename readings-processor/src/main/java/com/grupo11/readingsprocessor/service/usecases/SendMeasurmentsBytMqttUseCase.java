@@ -6,6 +6,7 @@ import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import com.grupo11.readingsprocessor.factory.ExponentialMovingAverageServiceFactory;
 import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
 import com.grupo11.readingsprocessor.mqtt.MQTTSender;
+import com.grupo11.readingsprocessor.mqtt.Topics;
 import com.grupo11.readingsprocessor.service.ExponentialMovingAverageService;
 import com.grupo11.readingsprocessor.service.ReadingsClassifierService;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -17,12 +18,6 @@ import java.util.Hashtable;
 
 @Component
 public class SendMeasurmentsBytMqttUseCase {
-    @Value("${broker.topic1}")
-    private String readingsTopic;
-
-    @Value("${broker.topic3}")
-    private String wrongFormatTopic;
-
     private final MQTTSender mqttSender;
     private final MQTTMapper mapper;
     private final LocalMongoDBRepository repository;
@@ -44,7 +39,8 @@ public class SendMeasurmentsBytMqttUseCase {
 
     public void execute(
         RawData measurements,
-        HashMap<String, Hashtable<String, Double>> mapManufactureSensorData) throws MqttException {
+        HashMap<String, Hashtable<String, Double>> mapManufactureSensorData
+    ) throws MqttException {
 
         var emaServiceFactory = ExponentialMovingAverageServiceFactory.getInstance();
 
@@ -55,7 +51,7 @@ public class SendMeasurmentsBytMqttUseCase {
 
             if (readingClassified.getClassification().equals(SensorDataClassification.NormalMeasurement)) {
                 sendMedicao(emaServiceFactory, readingClassified);
-                return;
+                continue;
             }
 
             sendAnomaly(readingClassified);
@@ -68,8 +64,7 @@ public class SendMeasurmentsBytMqttUseCase {
     }
 
     private void sendUnprocessableEntity(UnprocessableEntity entity) throws MqttException {
-        System.out.println("Sending: " + entity);
-        mqttSender.send(entity, wrongFormatTopic);
+        mqttSender.send(entity, Topics.WrongFormat);
         repository.updateLastSentObjectId(entity.getObjectId());
     }
 
@@ -92,8 +87,12 @@ public class SendMeasurmentsBytMqttUseCase {
     }
 
     private void sendAnomaly(FilterSensorData filterSensorData) throws MqttException {
+        var anomalyType = filterSensorData.getClassification().equals(SensorDataClassification.ManufactureAnomaly)
+            ? AnomalyType.SensorFailure
+            : AnomalyType.SporadicEvent;
+
         Anomalia reading = mapper.mapSensorDataToAnomalia(
-            filterSensorData.getSensorData(), AnomalyType.SensorFailure.anomalyType);
+            filterSensorData.getSensorData(), anomalyType.toString());
 
         mqttSender.send(reading, filterSensorData.getMqttTopic());
         repository.updateLastSentObjectId(filterSensorData.getSensorData().getId());

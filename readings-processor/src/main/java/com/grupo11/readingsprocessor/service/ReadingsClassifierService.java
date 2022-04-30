@@ -7,6 +7,7 @@ import com.grupo11.readingsprocessor.database.models.SensorDataClassification;
 import com.grupo11.readingsprocessor.database.models.SensorType;
 import com.grupo11.readingsprocessor.database.models.WeAreYourEnemy;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
+import com.grupo11.readingsprocessor.mqtt.Topics;
 import com.grupo11.readingsprocessor.service.usecases.ManufacturingErrorDetection;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -15,10 +16,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReadingsClassifierService {
   private final ManufacturingErrorDetection manufacturingErrorDetection;
-  private double _lastValueSent;
+  private HashMap<String, Double> LastValues;
 
   public ReadingsClassifierService(ManufacturingErrorDetection manufacturingErrorDetection) {
     this.manufacturingErrorDetection = manufacturingErrorDetection;
+
+    LastValues = new HashMap<>();
   }
 
   public FilterSensorData getClassifiedReading(
@@ -30,7 +33,14 @@ public class ReadingsClassifierService {
       // Calculates the difference percentage between the last value sent (raw)
       // and the current value being checked for
       var currentReadingValue = filteredSensorData.getSensorData().getMedicao();
-      var percentDifference = calcPercentDifference(_lastValueSent, currentReadingValue);
+      var sensorId = filteredSensorData.getSensorData().getSensor();
+
+      if (!LastValues.containsKey(sensorId)) {
+        LastValues.put(sensorId, currentReadingValue);
+        return filteredSensorData;
+      }
+
+      var percentDifference = calcPercentDifference(LastValues.get(sensorId), currentReadingValue);
 
       // If the percentage is over a defined threshold, we classify it as `OverThreshold`,
       // which is ultimately an anomaly type
@@ -38,8 +48,12 @@ public class ReadingsClassifierService {
           getSensorTypeFromSensorId(filteredSensorData.getSensorData().getSensor()));
 
       if (percentDifference > threshold) {
+        System.out.println("Found peak for reading: Threshold " + threshold + " read " + percentDifference);
         filteredSensorData.setClassification(SensorDataClassification.OverThreshold);
+        filteredSensorData.setMqttTopic(Topics.Anomaly);
       }
+
+      LastValues.replace(sensorId, LastValues.get(sensorId), currentReadingValue);
     }
 
     return filteredSensorData;

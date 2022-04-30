@@ -4,6 +4,7 @@ import com.grupo11.readingsprocessor.FilterSensorData;
 import com.grupo11.readingsprocessor.database.models.SensorData;
 import com.grupo11.readingsprocessor.database.models.SensorDataClassification;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
+import com.grupo11.readingsprocessor.mqtt.Topics;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +14,6 @@ import java.util.Locale;
 
 @Component
 public class ManufacturingErrorDetection {
-    @Value("${broker.topic2}")
-    private String MQTTANOMALYTOPIC;
-    @Value("${broker.topic1}")
-    private String MQTTMEASUREMENTTOPIC;
-
     private final LocalMongoDBRepository localMongoDBRepository;
 
     public ManufacturingErrorDetection(LocalMongoDBRepository localMongoDBRepository) {
@@ -36,7 +32,7 @@ public class ManufacturingErrorDetection {
         return new FilterSensorData(
             isWithinFactoryBounds ? SensorDataClassification.ManufactureAnomaly : SensorDataClassification.NormalMeasurement,
             sensorData,
-            isWithinFactoryBounds ? MQTTANOMALYTOPIC : MQTTMEASUREMENTTOPIC
+            isWithinFactoryBounds ? Topics.Anomaly : Topics.Reading
         );
     }
 }
