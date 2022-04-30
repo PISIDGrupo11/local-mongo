@@ -26,6 +26,7 @@ public class SendMeasurmentsBytMqttUseCase {
 
     private final ManufacturingErrorDetection manufacturingErrorDetection;
 
+
     public SendMeasurmentsBytMqttUseCase(MQTTSender mqttSender, MQTTMapper mapper,
                                          LocalMongoDBRepository repository,
                                          ManufacturingErrorDetection manufacturingErrorDetection) {
@@ -78,22 +79,12 @@ public class SendMeasurmentsBytMqttUseCase {
     }
 
     private void sendAnomaly(ExponentialMovingAverageServiceFactory emaServiceFactory,
-                             FilterSensorData filterSensorData)  throws MqttException{
+                             FilterSensorData filterSensorData)  throws MqttException {
         System.out.println("Sending: " + filterSensorData);
         Anomalia reading = mapper.mapSensorDataToAnomalia(filterSensorData.getSensorData(),
                 AnomalyType.SensorFailure.anomalyType);
-
-        ExponentialMovingAverageService emaService
-                = emaServiceFactory.getService(reading.getSensor());
-
-        emaService.tryReset(reading.getValorAnomalo());
-        emaService.update(reading.getValorAnomalo());
-        reading.setValorAnomalo(emaService.get());
-
         mqttSender.send(reading, filterSensorData.getMqttTopic());
         repository.updateLastSentObjectId(filterSensorData.getSensorData().getId());
 
     }
-
-
 }
