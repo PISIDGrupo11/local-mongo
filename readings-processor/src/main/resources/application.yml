@@ -41,3 +41,7 @@ application-logic:
       temperature: 0.5
       humidity: 0.5
       luminosity: 0.5
+    peak-detection-thresholds:
+      temperature: 0.3
+      humidity: 0.3
+      luminosity: 1

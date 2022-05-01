@@ -26,7 +26,6 @@ public class MqttService {
 
 
     public void runService() throws MqttException, InterruptedException, NotFoundException {
-
         HashMap<String, Hashtable<String, Double>> mapManufactureSensorData = localMongoDBRepository.
                 getManufactureSensorInformation();
 
