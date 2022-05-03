@@ -11,6 +11,7 @@ import com.grupo11.readingsprocessor.mqtt.Topics;
 import com.grupo11.readingsprocessor.service.ExponentialMovingAverageService;
 import com.grupo11.readingsprocessor.service.ReadingsClassifierService;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +19,10 @@ import java.util.HashMap;
 import java.util.Hashtable;
 
 @Component
-public class SendMeasurmentsBytMqttUseCase {
-    @Qualifier("mqttSender")
+public class SendMeasurmentsBytMqttUseCase{
+
+    @Autowired
+    @Qualifier("DirectSender")
     private final Sender sender;
     private final MQTTMapper mapper;
     private final LocalMongoDBRepository repository;
@@ -61,6 +64,7 @@ public class SendMeasurmentsBytMqttUseCase {
 
         // Process parsing errors (unprocessable entities)
         for(UnprocessableEntity entity : measurements.getUnprocessableEntityList()) {
+            System.out.println(entity);
             sendUnprocessableEntity(entity);
         }
     }
