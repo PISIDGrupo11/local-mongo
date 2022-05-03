@@ -1,12 +1,6 @@
 package com.grupo11.readingsprocessor.service;
 
-import com.grupo11.readingsprocessor.FilterSensorData;
-import com.grupo11.readingsprocessor.database.models.EmaSensorAlpha;
-import com.grupo11.readingsprocessor.database.models.SensorData;
-import com.grupo11.readingsprocessor.database.models.SensorDataClassification;
-import com.grupo11.readingsprocessor.database.models.SensorType;
-import com.grupo11.readingsprocessor.database.models.WeAreYourEnemy;
-import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
+import com.grupo11.readingsprocessor.database.models.*;
 import com.grupo11.readingsprocessor.mqtt.Topics;
 import com.grupo11.readingsprocessor.service.usecases.ManufacturingErrorDetection;
 import java.util.HashMap;
@@ -24,7 +18,7 @@ public class ReadingsClassifierService {
     LastValues = new HashMap<>();
   }
 
-  public FilterSensorData getClassifiedReading(
+  public RawData.FilterSensorData getClassifiedReading(
       SensorData sensorData, HashMap<String, Hashtable<String, Double>> factoryInformationMap) {
 
     var filteredSensorData = manufacturingErrorDetection.execute(sensorData, factoryInformationMap);

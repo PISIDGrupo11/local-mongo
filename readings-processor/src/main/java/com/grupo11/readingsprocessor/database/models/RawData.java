@@ -11,4 +11,13 @@ public class RawData {
 
     private List<SensorData> sensorDataList;
     private List<UnprocessableEntity> unprocessableEntityList;
+
+    @Data
+    @AllArgsConstructor
+    public static class FilterSensorData {
+
+        private SensorDataClassification classification;
+        private SensorData sensorData;
+        private String mqttTopic;
+    }
 }

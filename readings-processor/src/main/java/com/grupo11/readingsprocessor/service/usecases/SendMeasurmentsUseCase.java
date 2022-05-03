@@ -1,12 +1,11 @@
 package com.grupo11.readingsprocessor.service.usecases;
 
-import com.grupo11.readingsprocessor.FilterSensorData;
 import com.grupo11.readingsprocessor.database.models.*;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import com.grupo11.readingsprocessor.factory.ExponentialMovingAverageServiceFactory;
 import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
 import com.grupo11.readingsprocessor.mqtt.MQTTSender;
-import com.grupo11.readingsprocessor.mqtt.Sender;
+import com.grupo11.readingsprocessor.Sender;
 import com.grupo11.readingsprocessor.mqtt.Topics;
 import com.grupo11.readingsprocessor.service.ExponentialMovingAverageService;
 import com.grupo11.readingsprocessor.service.ReadingsClassifierService;
@@ -19,8 +18,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 
 @Component
-public class SendMeasurmentsBytMqttUseCase{
-
+public class SendMeasurmentsUseCase {
     @Autowired
     @Qualifier("DirectSender")
     private final Sender sender;
@@ -29,7 +27,7 @@ public class SendMeasurmentsBytMqttUseCase{
     private final ReadingsClassifierService readingsClassifierService;
 
 
-    public SendMeasurmentsBytMqttUseCase(
+    public SendMeasurmentsUseCase(
         MQTTSender sender,
         MQTTMapper mapper,
         LocalMongoDBRepository repository,
@@ -76,7 +74,7 @@ public class SendMeasurmentsBytMqttUseCase{
 
     private void sendMedicao(
         ExponentialMovingAverageServiceFactory emaServiceFactory,
-        FilterSensorData filterSensorData
+        RawData.FilterSensorData filterSensorData
     ) throws MqttException {
 
         var reading = mapper.mapSensorDataToMedicao(filterSensorData.getSensorData());
@@ -92,7 +90,7 @@ public class SendMeasurmentsBytMqttUseCase{
         repository.updateLastSentObjectId(filterSensorData.getSensorData().getId());
     }
 
-    private void sendAnomaly(FilterSensorData filterSensorData) throws MqttException {
+    private void sendAnomaly(RawData.FilterSensorData filterSensorData) throws MqttException {
         var anomalyType = filterSensorData.getClassification().equals(SensorDataClassification.ManufactureAnomaly)
             ? AnomalyType.SensorFailure
             : AnomalyType.SporadicEvent;
