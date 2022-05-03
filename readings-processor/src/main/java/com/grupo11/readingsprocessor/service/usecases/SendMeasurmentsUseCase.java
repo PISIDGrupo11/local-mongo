@@ -19,16 +19,15 @@ import java.util.Hashtable;
 
 @Component
 public class SendMeasurmentsUseCase {
-    @Autowired
-    @Qualifier("DirectSender")
+
+
     private final Sender sender;
     private final MQTTMapper mapper;
     private final LocalMongoDBRepository repository;
     private final ReadingsClassifierService readingsClassifierService;
 
 
-    public SendMeasurmentsUseCase(
-        MQTTSender sender,
+    public SendMeasurmentsUseCase(Sender sender,
         MQTTMapper mapper,
         LocalMongoDBRepository repository,
         ReadingsClassifierService readingsClassifierService
