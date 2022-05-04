@@ -6,14 +6,23 @@ import com.grupo11.readingsdownloader.database.mongodb.local.LocalMongoDatabase;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 @Repository
 public class LocalMongoRepository {
+
+    @Value("${spring.data.mongodb.local.collections.anomalies}")
+    private String anomaliesDataCollections;
+
+    @Value("${spring.data.mongodb.local.collections.rawdata}")
+    private String filteredDataCollection;
+
 
     private final LocalMongoDatabase database;
     private final LocalMongoMapper mapper;
@@ -38,8 +47,24 @@ public class LocalMongoRepository {
     }
 
     public Optional<ObjectId> getMostRecentObjectId() {
-        return Optional.ofNullable(database.getMostRecentObjectId().first())
+        Optional<ObjectId> objectIdFromFilterCollection = Optional
+                .ofNullable(database.getMostRecentObjectId(filteredDataCollection)
+                .first())
                 .flatMap(document -> mapper.mapDocumentToObjectId(document));
+        Optional<ObjectId> objectIdFromAnomalyCollection = Optional
+                .ofNullable(database.getMostRecentObjectId(filteredDataCollection)
+                .first())
+                .flatMap(document -> mapper.mapDocumentToObjectId(document));
+
+        return getLaterObjectId(objectIdFromFilterCollection,objectIdFromAnomalyCollection);
+
+    }
+
+    private Optional<ObjectId> getLaterObjectId(Optional<ObjectId> objectId, Optional<ObjectId> objectId1){
+
+        return objectId.isEmpty() ? objectId1 : objectId1.isEmpty() ? objectId :
+                objectId.get().compareTo(objectId1.get()) > 0 ? objectId :
+                        objectId1;
     }
 
     public boolean collectionIsEmpty(String collection) {

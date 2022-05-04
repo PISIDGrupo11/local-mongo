@@ -16,6 +16,8 @@ public interface LocalMongoDatabase {
 
     FindIterable<Document> getCollectionSize(String collection);
 
-    FindIterable<Document> getMostRecentObjectId();
+    FindIterable<Document> getMostRecentObjectId(String collection);
+
+
 
 }
