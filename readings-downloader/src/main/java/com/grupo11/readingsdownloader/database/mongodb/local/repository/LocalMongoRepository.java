@@ -2,6 +2,7 @@ package com.grupo11.readingsdownloader.database.mongodb.local.repository;
 
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
 import com.grupo11.readingsdownloader.database.models.CloudSQLBackupZone;
+import com.grupo11.readingsdownloader.database.models.RawData;
 import com.grupo11.readingsdownloader.database.mongodb.local.LocalMongoDatabase;
 import com.mongodb.client.FindIterable;
 import org.bson.Document;
@@ -9,9 +10,9 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 @Repository
@@ -31,9 +32,39 @@ public class LocalMongoRepository {
         this.database = database;
         this.mapper = mapper;
     }
+    public RawData mapMultipleDocumentsToSensorData(List<Document> documents,
+                                                    List<CloudSQLBackupSensor> cloudSQLBackupSensorList) {
+        List<Document> manufactureControlOk = new ArrayList<>();
+        List<Document> manufactureControlFailure = new ArrayList<>();
+        for (Document document : documents) {
+            if( verifySensorHadManufactureInfo(document, cloudSQLBackupSensorList))
+                manufactureControlOk.add(document);
 
-    public void insertNewRawData(List<Document> rawData) {
-        database.insertNewRawData(rawData);
+        }
+        return new RawData(manufactureControlOk,
+                manufactureControlFailure);
+    }
+
+    private boolean verifySensorHadManufactureInfo(
+                                                   Document document,
+                                                   List<CloudSQLBackupSensor> cloudSQLBackupSensorList){
+        try{
+            return cloudSQLBackupSensorList.stream()
+                    .anyMatch(x -> String.valueOf(x.getIdSensor())
+                            .equals(document.getString("Sensor").substring(1))
+                    && String.valueOf(x.getIdZona())
+                            .equals(document.getString("Zona").substring(1)));
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    public void insertNewRawData(List<Document> anomalyData) {
+        database.insertNewRawData(anomalyData);
+    }
+
+    public void insertNewAnomalyData(List<Document> anomalyData){
+        database.insertNewAnomalyData(anomalyData);
     }
 
     public void insertCloudBackupZone(List<CloudSQLBackupZone> cloudSQLBackupZones) {

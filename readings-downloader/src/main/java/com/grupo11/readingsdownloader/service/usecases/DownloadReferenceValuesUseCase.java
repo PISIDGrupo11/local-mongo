@@ -1,10 +1,13 @@
 package com.grupo11.readingsdownloader.service.usecases;
 
+import com.grupo11.readingsdownloader.database.models.CloudSQLBackupSensor;
 import com.grupo11.readingsdownloader.database.mongodb.local.repository.LocalMongoRepository;
 import com.grupo11.readingsdownloader.database.mysql.repository.MySQLCloudRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class DownloadReferenceValuesUseCase {
@@ -23,13 +26,16 @@ public class DownloadReferenceValuesUseCase {
         this.localMongoRepository = localMongoRepository;
     }
 
-    public void execute() {
+    public List<CloudSQLBackupSensor> execute() {
+
+        List<CloudSQLBackupSensor> cloudSQLBackupSensorList = mySQLCloudRepository.getSensors();
         if(localMongoRepository.collectionIsEmpty(cloudsqlBackupSensorCollection)) {
-            localMongoRepository.insertCloudBackupSensor(mySQLCloudRepository.getSensors());
+            localMongoRepository.insertCloudBackupSensor(cloudSQLBackupSensorList);
         }
         if(localMongoRepository.collectionIsEmpty(cloudsqlBackupZoneCollection)) {
             localMongoRepository.insertCloudBackupZone(mySQLCloudRepository.getZonas());
         }
+        return cloudSQLBackupSensorList;
     }
 
 }
