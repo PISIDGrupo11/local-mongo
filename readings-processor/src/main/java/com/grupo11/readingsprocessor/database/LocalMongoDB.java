@@ -12,7 +12,7 @@ public interface LocalMongoDB {
 
     FindIterable<Document> getLastSentId(String collectionName);
 
-    public void updateLastSentSensorData(Document lastSentSensorData);
+    public void updateLastSentSensorData(Document lastSentSensorData, String collectionName);
 
     FindIterable<Document> getBulkData(String collectionName);
 

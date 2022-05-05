@@ -4,14 +4,12 @@ import com.grupo11.readingsprocessor.database.models.*;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import com.grupo11.readingsprocessor.factory.ExponentialMovingAverageServiceFactory;
 import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
-import com.grupo11.readingsprocessor.mqtt.MQTTSender;
 import com.grupo11.readingsprocessor.Sender;
 import com.grupo11.readingsprocessor.mqtt.Topics;
 import com.grupo11.readingsprocessor.service.ExponentialMovingAverageService;
 import com.grupo11.readingsprocessor.service.ReadingsClassifierService;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -20,7 +18,8 @@ import java.util.Hashtable;
 @Component
 public class SendMeasurmentsUseCase {
 
-
+    @Value("${spring.data.mongodb.local.collections.readings-processor-timestamp-holder}")
+    private String readingsProcessorTimestampHolderCollection;
     private final Sender sender;
     private final MQTTMapper mapper;
     private final LocalMongoDBRepository repository;
@@ -68,7 +67,8 @@ public class SendMeasurmentsUseCase {
 
     private void sendUnprocessableEntity(UnprocessableEntity entity) throws MqttException {
         sender.send(entity, Topics.WrongFormat);
-        repository.updateLastSentObjectId(entity.getObjectId());
+        repository.updateLastSentObjectId(entity.getObjectId(),
+                readingsProcessorTimestampHolderCollection);
     }
 
     private void sendMedicao(
@@ -86,7 +86,8 @@ public class SendMeasurmentsUseCase {
         reading.setLeitura(emaService.get());
 
         sender.send(reading, filterSensorData.getMqttTopic());
-        repository.updateLastSentObjectId(filterSensorData.getSensorData().getId());
+        repository.updateLastSentObjectId(filterSensorData.getSensorData().getId(),
+                readingsProcessorTimestampHolderCollection);
     }
 
     private void sendAnomaly(RawData.FilterSensorData filterSensorData) throws MqttException {
@@ -98,7 +99,8 @@ public class SendMeasurmentsUseCase {
             filterSensorData.getSensorData(), anomalyType.toString());
 
         sender.send(reading, filterSensorData.getMqttTopic());
-        repository.updateLastSentObjectId(filterSensorData.getSensorData().getId());
+        repository.updateLastSentObjectId(filterSensorData.getSensorData().getId(),
+                readingsProcessorTimestampHolderCollection);
     }
 }
 

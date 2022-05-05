@@ -37,8 +37,8 @@ public class LocalMongoDBImpl implements LocalMongoDB {
     }
 
     @Override
-    public void updateLastSentSensorData(Document lastSentSensorData) {
-        MongoCollection<Document> collection = session.getCollection(readingsProcessorTimestampHolderCollection);
+    public void updateLastSentSensorData(Document lastSentSensorData, String collectionName) {
+        MongoCollection<Document> collection = session.getCollection(collectionName);
         collection.insertOne(lastSentSensorData);
     }
 

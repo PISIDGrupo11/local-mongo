@@ -33,8 +33,9 @@ public class LocalMongoDBRepository {
         return mapper.mapDocumentToObjectId(cursor.next());
     }
 
-    public void updateLastSentObjectId(ObjectId lastSentSensorData) {
-        database.updateLastSentSensorData(mapper.mapSensorObjectIdToDocument(lastSentSensorData));
+    public void updateLastSentObjectId(ObjectId lastSentSensorData, String collectionName) {
+        database.updateLastSentSensorData(mapper.mapSensorObjectIdToDocument(lastSentSensorData),
+                collectionName);
     }
 
     public RawData getBulkData(String collectionName) {

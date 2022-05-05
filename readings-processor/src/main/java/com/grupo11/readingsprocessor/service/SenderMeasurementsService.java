@@ -23,6 +23,8 @@ public class SenderMeasurementsService {
 
     @Async
     public void runService() throws MqttException, InterruptedException, NotFoundException {
+
+
         HashMap<String, Hashtable<String, Double>> mapManufactureSensorData = localMongoDBRepository.
                 getManufactureSensorInformation();
 
