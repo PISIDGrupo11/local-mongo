@@ -18,6 +18,7 @@ public class ReadingsProcessorApplication {
 
         SenderMeasurementsService senderMeasurementsService = ctx.getBean(SenderMeasurementsService.class);
         senderMeasurementsService.runService();
+
         SenderAnomalyCollectionService senderAnomalyCollectionService = ctx
                 .getBean(SenderAnomalyCollectionService.class);
         senderAnomalyCollectionService.runService();

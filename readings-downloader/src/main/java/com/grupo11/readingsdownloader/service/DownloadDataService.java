@@ -31,7 +31,7 @@ public class DownloadDataService {
             RawData rawData = separateDataToCategoriesUseCase.execute(
                     cloudSQLBackupSensorList);
             dowloadLatestDataUseCase.execute(rawData, cloudSQLBackupSensorList);
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         }
     }
 }

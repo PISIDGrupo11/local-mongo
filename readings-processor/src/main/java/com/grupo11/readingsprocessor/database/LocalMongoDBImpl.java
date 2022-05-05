@@ -1,5 +1,7 @@
 package com.grupo11.readingsprocessor.database;
 
+import com.grupo11.readingsprocessor.database.models.BackUpSensorColumns;
+import com.grupo11.readingsprocessor.database.models.RawDataColumns;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.FindIterable;
@@ -34,9 +36,12 @@ public class LocalMongoDBImpl implements LocalMongoDB {
     public FindIterable<Document> getMostRecentData(ObjectId objectId, String collectionName ,String zone) {
         MongoCollection<Document> collection = session.getCollection(collectionName);
         BasicDBObject gtQuery = new BasicDBObject();
-        gtQuery.put("_id", new BasicDBObject("$gt", objectId));
-        gtQuery.put("Zona", new BasicDBObject("$eq", zone));
-        return collection.find(gtQuery).sort(new BasicDBObject("_id", 1));
+        gtQuery.put(RawDataColumns.ID.getColumnIdentifier(),
+                new BasicDBObject("$gt", objectId));
+        gtQuery.put(RawDataColumns.ZONE.getColumnIdentifier(),
+                new BasicDBObject("$eq", zone));
+        return collection.find(gtQuery)
+                .sort(new BasicDBObject(RawDataColumns.ID.getColumnIdentifier(), 1));
     }
 
     @Override
@@ -44,7 +49,8 @@ public class LocalMongoDBImpl implements LocalMongoDB {
         MongoCollection<Document> collection = session
                 .getCollection(sensorsWithoutManufactureInfoCollection);
         BasicDBObject gtQuery = new BasicDBObject();
-        gtQuery.put("_id", new BasicDBObject("$gt", objectId));
+        gtQuery.put(BackUpSensorColumns.ID.getColumnIdentifier(),
+                new BasicDBObject("$gt", objectId));
         return collection.find(gtQuery).sort(new BasicDBObject("_id", 1));
     }
 
@@ -79,14 +85,18 @@ public class LocalMongoDBImpl implements LocalMongoDB {
     public FindIterable<Document> getBulkData(String collectionName, String zone) {
         MongoCollection<Document> collection = session.getCollection(collectionName);
         BasicDBObject query = new BasicDBObject();
-        query.put("Zona", new BasicDBObject("$eq", zone));
+        query.put(RawDataColumns.ZONE.getColumnIdentifier(), new BasicDBObject("$eq", zone));
         return collection.find(query).sort(new BasicDBObject("_id", -1)).limit(10);
     }
     @Override
     public FindIterable<Document> getNoManufactureCollection(){
-        MongoCollection<Document> collection = session.getCollection(sensorsWithoutManufactureInfoCollection);
+        MongoCollection<Document> collection = session.getCollection(
+                sensorsWithoutManufactureInfoCollection);
         BasicDBObject query = new BasicDBObject();
-        return collection.find(query).sort(new BasicDBObject("_id", -1)).limit(10);
+        return collection.find(query).sort(
+                new BasicDBObject(
+                        BackUpSensorColumns.ID.getColumnIdentifier(), -1))
+                .limit(10);
 
     }
 
@@ -94,7 +104,8 @@ public class LocalMongoDBImpl implements LocalMongoDB {
     public FindIterable<Document> getCollectionSize(String collection, String zone) {
         MongoCollection<Document> coll = session.getCollection(collection);
         BasicDBObject query = new BasicDBObject();
-        query.put("Zona", new BasicDBObject("$eq", zone));
+        query.put(RawDataColumns.ZONE.getColumnIdentifier(),
+                new BasicDBObject("$eq", zone));
         return coll.find(query);
     }
 
@@ -113,7 +124,8 @@ public class LocalMongoDBImpl implements LocalMongoDB {
 
     public DistinctIterable<Integer> getZonesFromManufactureData(){
         MongoCollection<Document> coll = session.getCollection(manufacturingSensorDataCollection);
-        return coll.distinct("idZona", Integer.class);
+        return coll.distinct(BackUpSensorColumns.IDZONE.getColumnIdentifier(),
+                Integer.class);
 
     }
 }
