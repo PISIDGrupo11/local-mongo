@@ -9,7 +9,7 @@ import com.grupo11.readingsprocessor.mqtt.Topics;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service("DirectSender")
+@Service
 @AllArgsConstructor
 public class DirectConnectionService implements Sender {
 

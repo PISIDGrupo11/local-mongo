@@ -23,7 +23,8 @@ public class SenderAnomalyCollectionService {
         System.out.println("Start: SenderAnomalyCollectionService");
         while(true){
             System.out.println("I AM ALIVE!");
-            sendSensorsWithoutManufactureUseCase.execute(fetchSensorsWithoutManufactureUseCase.execute());
+            sendSensorsWithoutManufactureUseCase
+                    .execute(fetchSensorsWithoutManufactureUseCase.execute());
             Thread.sleep(60000);
         }
 

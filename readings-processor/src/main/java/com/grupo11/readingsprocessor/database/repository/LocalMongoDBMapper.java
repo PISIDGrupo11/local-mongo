@@ -28,11 +28,19 @@ public class LocalMongoDBMapper {
         return new RawData(dataList, unprocessableEntityList);
     }
 
+
     public ObjectId mapDocumentToObjectId(Document document) {
         return document.getObjectId("_id");
     }
 
-    public Document mapSensorObjectIdToDocument(ObjectId objectId) {
+    public Document mapSensorObjectIdToDocument(ObjectId objectId, String zone) {
+        Document document = new Document();
+        document.append("_id", objectId);
+        document.append("Zona", zone);
+        return document;
+    }
+
+    public Document mapSensorObjectIdOfNoManufactureSensorDataToDocument(ObjectId objectId){
         Document document = new Document();
         document.append("_id", objectId);
         return document;
@@ -48,5 +56,13 @@ public class LocalMongoDBMapper {
             hashMap.put(key, limits);
         }
         return hashMap;
+    }
+
+    public Stack<String> collectionToZoneNames(Iterable<Document> documents){
+        Stack<String> zoneNames = new Stack<>();
+        for(Document document : documents){
+            zoneNames.add("Z"+ document.getInteger("idZona"));
+        }
+        return zoneNames;
     }
 }

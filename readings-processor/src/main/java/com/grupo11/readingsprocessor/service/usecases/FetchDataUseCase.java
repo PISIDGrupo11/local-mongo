@@ -25,11 +25,11 @@ public class FetchDataUseCase {
         this.mongoDBRepository = mongoDBRepository;
     }
 
-    public RawData execute() throws NotFoundException {
-        if (mongoDBRepository.collectionIsEmpty(readingsProcessorTimestampHolderCollection)) {
-            return mongoDBRepository.getBulkData(localMongoDataCollection);
+    public RawData execute(String zone) throws NotFoundException {
+        if (mongoDBRepository.collectionIsEmpty(readingsProcessorTimestampHolderCollection, zone)) {
+            return mongoDBRepository.getBulkData(localMongoDataCollection, zone);
         }
-        ObjectId lastSentId = mongoDBRepository.getLastSentId(readingsProcessorTimestampHolderCollection);
-        return mongoDBRepository.getMostRecentData(lastSentId, localMongoDataCollection);
+        ObjectId lastSentId = mongoDBRepository.getLastSentId(readingsProcessorTimestampHolderCollection, zone);
+        return mongoDBRepository.getMostRecentData(lastSentId, localMongoDataCollection, zone);
     }
 }
