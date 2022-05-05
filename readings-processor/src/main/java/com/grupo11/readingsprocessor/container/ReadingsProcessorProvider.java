@@ -1,6 +1,11 @@
 package com.grupo11.readingsprocessor.container;
 
 import com.google.gson.Gson;
+import com.grupo11.readingsprocessor.Sender;
+import com.grupo11.readingsprocessor.database.repository.PC2MysqlRepository;
+import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
+import com.grupo11.readingsprocessor.mqtt.MQTTSender;
+import com.grupo11.readingsprocessor.service.DirectConnectionService;
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -9,6 +14,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -56,6 +62,18 @@ public class ReadingsProcessorProvider {
         MqttClient mqttClient = new MqttClient(mqttServer, MqttClient.generateClientId());
         mqttClient.connect();
         return mqttClient;
+    }
+
+
+    @Bean
+    @Primary
+    public Sender provideMqttSender(IMqttClient mqttClient, MQTTMapper mqttMapper){
+        return new MQTTSender(mqttClient, mqttMapper);
+    }
+
+    @Bean
+    public Sender provideDirectSender(PC2MysqlRepository pc2MysqlRepository){
+        return new DirectConnectionService(pc2MysqlRepository);
     }
 
     @Bean

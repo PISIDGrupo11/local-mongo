@@ -10,12 +10,16 @@ public interface LocalMongoDatabase {
 
     void insertNewRawData(List<Document> filteredData);
 
+    void insertNewAnomalyData(List<Document> anomalyData);
+
     void insertCloudBackupZone(List<Document> cloudBackupZone);
 
     void insertCloudBackupSensor(List<Document> cloudBackupSensor);
 
     FindIterable<Document> getCollectionSize(String collection);
 
-    FindIterable<Document> getMostRecentObjectId();
+    FindIterable<Document> getMostRecentObjectId(String collection);
+
+
 
 }

@@ -16,15 +16,29 @@ public class Anomalia {
     private int Zona;
     private double ValorAnomalo;
     private String TipoAnomalia;
-    private String ValorRecebido;
+
+    private String PayloadRecebido;
     private Date Hora;
 
-    public Anomalia(String sensor, int zona, double valorAnomalo, String tipoAnomalia, String valorRecebido, Date hora) {
+    public Anomalia(String sensor, int zona, double valorAnomalo, String tipoAnomalia, String payloadRecebido, Date hora) {
         Sensor = sensor;
         Zona = zona;
         ValorAnomalo = valorAnomalo;
         TipoAnomalia = tipoAnomalia;
-        ValorRecebido = valorRecebido;
+        PayloadRecebido = payloadRecebido;
         Hora = hora;
+    }
+
+    @Override
+    public String toString() {
+        return "Anomalia{" +
+                "Id=" + Id +
+                ", Sensor='" + Sensor + '\'' +
+                ", Zona=" + Zona +
+                ", ValorAnomalo=" + ValorAnomalo +
+                ", TipoAnomalia='" + TipoAnomalia + '\'' +
+                ", PayloadRecebido='" + PayloadRecebido + '\'' +
+                ", Hora=" + Hora +
+                '}';
     }
 }

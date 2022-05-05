@@ -14,7 +14,7 @@ spring:
           sensor-manufactured-info: cloudSQLBackupSensor
     mysql-pc2:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://localhost:3307
+      jdbc-url: jdbc:mysql://localhost:3307/localsensor?jdbcCompliantTruncation=false
       password: 'password'
       pool-size: 30
       username: root

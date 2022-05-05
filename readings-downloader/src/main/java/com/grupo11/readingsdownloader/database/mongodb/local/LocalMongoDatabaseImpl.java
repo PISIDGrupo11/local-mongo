@@ -8,11 +8,16 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class LocalMongoDatabaseImpl implements LocalMongoDatabase {
 
     private final MongoDatabase session;
+    @Value("${spring.data.mongodb.local.collections.anomalies}")
+    private String anomaliesDataCollections;
+
     @Value("${spring.data.mongodb.local.collections.rawdata}")
     private String filteredDataCollection;
     @Value("${spring.data.mongodb.local.collections.cloudsql-backup-sensor}")
@@ -28,6 +33,11 @@ public class LocalMongoDatabaseImpl implements LocalMongoDatabase {
     public void insertNewRawData(List<Document> filteredData) {
         MongoCollection<Document> collection = session.getCollection(filteredDataCollection);
         collection.insertMany(filteredData);
+    }
+
+    public void insertNewAnomalyData(List<Document> anomalyData){
+        MongoCollection<Document> collection = session.getCollection(anomaliesDataCollections);
+        collection.insertMany(anomalyData);
     }
 
     @Override
@@ -50,8 +60,8 @@ public class LocalMongoDatabaseImpl implements LocalMongoDatabase {
     }
 
     @Override
-    public FindIterable<Document> getMostRecentObjectId() {
-        MongoCollection<Document> collection = session.getCollection(filteredDataCollection);
+    public FindIterable<Document> getMostRecentObjectId(String collectionName) {
+        MongoCollection<Document> collection = session.getCollection(collectionName);
         BasicDBObject query = new BasicDBObject();
         return collection.find(query).sort(new BasicDBObject("_id", -1)).limit(1);
     }

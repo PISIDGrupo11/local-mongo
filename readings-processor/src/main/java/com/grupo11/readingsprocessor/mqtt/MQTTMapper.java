@@ -39,8 +39,7 @@ public class MQTTMapper {
         return new Anomalia(sensorData.getSensor(),
                 Integer.parseInt(sensorData.getZona().substring(1)),
                 sensorData.getMedicao(),
-                tipoAnomalia,
-                null,
+                tipoAnomalia, null,
                 sensorData.getId().getDate()
         );
     }
