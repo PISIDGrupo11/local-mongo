@@ -50,12 +50,12 @@ public class LocalMongoRepository {
                                                    List<CloudSQLBackupSensor> cloudSQLBackupSensorList){
         try{
             return cloudSQLBackupSensorList.stream()
-                    .anyMatch(x -> String.valueOf(x.getIdSensor())
-                            .equals(document.getString("Sensor").substring(1))
+                    .anyMatch(x -> (x.getTipo() + x.getIdSensor())
+                            .equals(document.getString("Sensor"))
                     && String.valueOf(x.getIdZona())
                             .equals(document.getString("Zona").substring(1)));
         }catch (Exception e){
-            return false;
+            return true;
         }
     }
 
