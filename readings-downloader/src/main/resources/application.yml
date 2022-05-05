@@ -10,7 +10,7 @@ spring:
         database: LabMedicoes
         collections:
           rawdata: rawdata
-          sensors-without-manufacture-info: sensorWithoutManufactureInfo
+          anomalies: anomalies
           cloudsql-backup-sensor: cloudSQLBackupSensor
           cloudsql-backup-zone: cloudSQLBackupZone
       cloud:
