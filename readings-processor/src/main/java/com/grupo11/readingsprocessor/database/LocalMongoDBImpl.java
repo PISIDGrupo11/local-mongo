@@ -13,10 +13,6 @@ import org.springframework.stereotype.Component;
 public class LocalMongoDBImpl implements LocalMongoDB {
 
     private final MongoDatabase session;
-    @Value("${spring.data.mongodb.local.collections.raw-data}")
-    private String localMongoDataCollection;
-    @Value("${spring.data.mongodb.local.collections.readings-processor-timestamp-holder}")
-    private String readingsProcessorTimestampHolderCollection;
 
     @Value("${spring.data.mongodb.local.collections.sensor-manufactured-info}")
     private String manufacturingSensorDataCollection;
@@ -26,30 +22,30 @@ public class LocalMongoDBImpl implements LocalMongoDB {
     }
 
     @Override
-    public FindIterable<Document> getMostRecentData(ObjectId objectId) {
-        MongoCollection<Document> collection = session.getCollection(localMongoDataCollection);
+    public FindIterable<Document> getMostRecentData(ObjectId objectId, String collectionName) {
+        MongoCollection<Document> collection = session.getCollection(collectionName);
         BasicDBObject gtQuery = new BasicDBObject();
         gtQuery.put("_id", new BasicDBObject("$gt", objectId));
         return collection.find(gtQuery).sort(new BasicDBObject("_id", 1));
     }
 
     @Override
-    public FindIterable<Document> getLastSentId() {
-        MongoCollection<Document> collection = session.getCollection(readingsProcessorTimestampHolderCollection);
+    public FindIterable<Document> getLastSentId(String collectionName) {
+        MongoCollection<Document> collection = session.getCollection(collectionName);
         BasicDBObject query = new BasicDBObject();
         return collection.find(query).sort(new BasicDBObject("_id", -1)).limit(1);
     }
 
     @Override
-    public void updateLastSentSensorData(Document lastSentSensorData) {
-        MongoCollection<Document> collection = session.getCollection(readingsProcessorTimestampHolderCollection);
+    public void updateLastSentSensorData(Document lastSentSensorData, String collectionName) {
+        MongoCollection<Document> collection = session.getCollection(collectionName);
         collection.insertOne(lastSentSensorData);
     }
 
     @Override
-    public FindIterable<Document> getBulkData() {
+    public FindIterable<Document> getBulkData(String collectionName) {
         BasicDBObject query = new BasicDBObject();
-        MongoCollection<Document> collection = session.getCollection(localMongoDataCollection);
+        MongoCollection<Document> collection = session.getCollection(collectionName);
         return collection.find(query).sort(new BasicDBObject("_id", -1)).limit(10);
     }
 

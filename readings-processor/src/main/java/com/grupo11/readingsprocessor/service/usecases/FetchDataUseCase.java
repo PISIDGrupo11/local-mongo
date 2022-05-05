@@ -14,21 +14,22 @@ import java.util.List;
 
 @Component
 public class FetchDataUseCase {
-
     @Value("${spring.data.mongodb.local.collections.readings-processor-timestamp-holder}")
-    private String readingsTsHolder;
+    private String readingsProcessorTimestampHolderCollection;
+    @Value("${spring.data.mongodb.local.collections.raw-data}")
+    private String localMongoDataCollection;
     private final LocalMongoDBRepository mongoDBRepository;
+
 
     public FetchDataUseCase(LocalMongoDBRepository mongoDBRepository) {
         this.mongoDBRepository = mongoDBRepository;
     }
 
     public RawData execute() throws NotFoundException {
-        if (mongoDBRepository.collectionIsEmpty(readingsTsHolder)) {
-            return mongoDBRepository.getBulkData();
+        if (mongoDBRepository.collectionIsEmpty(readingsProcessorTimestampHolderCollection)) {
+            return mongoDBRepository.getBulkData(localMongoDataCollection);
         }
-        ObjectId lastSentId = mongoDBRepository.getLastSentId();
-        return mongoDBRepository.getMostRecentData(lastSentId);
+        ObjectId lastSentId = mongoDBRepository.getLastSentId(readingsProcessorTimestampHolderCollection);
+        return mongoDBRepository.getMostRecentData(lastSentId, localMongoDataCollection);
     }
-
 }

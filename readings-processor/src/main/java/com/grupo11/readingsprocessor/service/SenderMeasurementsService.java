@@ -6,6 +6,7 @@ import com.grupo11.readingsprocessor.service.usecases.FetchDataUseCase;
 import com.grupo11.readingsprocessor.service.usecases.SendMeasurmentsUseCase;
 import lombok.AllArgsConstructor;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,8 +21,10 @@ public class SenderMeasurementsService {
 
     private final LocalMongoDBRepository localMongoDBRepository;
 
-
+    @Async
     public void runService() throws MqttException, InterruptedException, NotFoundException {
+
+
         HashMap<String, Hashtable<String, Double>> mapManufactureSensorData = localMongoDBRepository.
                 getManufactureSensorInformation();
 

@@ -19,23 +19,27 @@ public class LocalMongoDBRepository {
     private final LocalMongoDB database;
     private final LocalMongoDBMapper mapper;
 
-    public RawData getMostRecentData(ObjectId objectId) {
-        return mapper.mapMultipleDocumentsToSensorData(database.getMostRecentData(objectId));
+    public RawData getMostRecentData(ObjectId objectId,
+                                     String collectionName) {
+        return mapper.mapMultipleDocumentsToSensorData(
+                database.getMostRecentData(objectId, collectionName)
+        );
     }
 
-    public ObjectId getLastSentId() throws NotFoundException {
-        MongoCursor<Document> cursor = database.getLastSentId().iterator();
+    public ObjectId getLastSentId(String collectionName) throws NotFoundException {
+        MongoCursor<Document> cursor = database.getLastSentId(collectionName).iterator();
         if (!cursor.hasNext())
             throw new NotFoundException("No data has been sent yet!");
         return mapper.mapDocumentToObjectId(cursor.next());
     }
 
-    public void updateLastSentObjectId(ObjectId lastSentSensorData) {
-        database.updateLastSentSensorData(mapper.mapSensorObjectIdToDocument(lastSentSensorData));
+    public void updateLastSentObjectId(ObjectId lastSentSensorData, String collectionName) {
+        database.updateLastSentSensorData(mapper.mapSensorObjectIdToDocument(lastSentSensorData),
+                collectionName);
     }
 
-    public RawData getBulkData() {
-        return mapper.mapMultipleDocumentsToSensorData(database.getBulkData());
+    public RawData getBulkData(String collectionName) {
+        return mapper.mapMultipleDocumentsToSensorData(database.getBulkData(collectionName));
     }
 
     public boolean collectionIsEmpty(String collection) {
