@@ -7,7 +7,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Service;
 
-@Service("MqttSender")
+@Service
 @AllArgsConstructor
 public class MQTTSender implements Sender {
     private final IMqttClient mqttClient;

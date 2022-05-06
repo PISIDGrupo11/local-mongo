@@ -40,7 +40,8 @@ public class SendMeasurmentsUseCase {
 
     public void execute(
                         RawData measurements,
-                        HashMap<String, Hashtable<String, Double>> mapManufactureSensorData
+                        HashMap<String, Hashtable<String, Double>> mapManufactureSensorData,
+                        String zone
     ) throws MqttException {
 
         var emaServiceFactory = ExponentialMovingAverageServiceFactory.getInstance();
@@ -51,29 +52,29 @@ public class SendMeasurmentsUseCase {
                 sensorData, mapManufactureSensorData);
 
             if (readingClassified.getClassification().equals(SensorDataClassification.NormalMeasurement)) {
-                sendMedicao(emaServiceFactory, readingClassified);
+                sendMedicao(emaServiceFactory, readingClassified, zone);
                 continue;
             }
 
-            sendAnomaly(readingClassified);
+            sendAnomaly(readingClassified, zone);
         }
 
         // Process parsing errors (unprocessable entities)
         for(UnprocessableEntity entity : measurements.getUnprocessableEntityList()) {
             System.out.println(entity);
-            sendUnprocessableEntity(entity);
+            sendUnprocessableEntity(entity, zone);
         }
     }
 
-    private void sendUnprocessableEntity(UnprocessableEntity entity) throws MqttException {
+    private void sendUnprocessableEntity(UnprocessableEntity entity, String zone) throws MqttException {
         sender.send(entity, Topics.WrongFormat);
         repository.updateLastSentObjectId(entity.getObjectId(),
-                readingsProcessorTimestampHolderCollection);
+                readingsProcessorTimestampHolderCollection, zone);
     }
 
     private void sendMedicao(
         ExponentialMovingAverageServiceFactory emaServiceFactory,
-        RawData.FilterSensorData filterSensorData
+        RawData.FilterSensorData filterSensorData, String zone
     ) throws MqttException {
 
         var reading = mapper.mapSensorDataToMedicao(filterSensorData.getSensorData());
@@ -87,10 +88,10 @@ public class SendMeasurmentsUseCase {
 
         sender.send(reading, filterSensorData.getMqttTopic());
         repository.updateLastSentObjectId(filterSensorData.getSensorData().getId(),
-                readingsProcessorTimestampHolderCollection);
+                readingsProcessorTimestampHolderCollection, zone);
     }
 
-    private void sendAnomaly(RawData.FilterSensorData filterSensorData) throws MqttException {
+    private void sendAnomaly(RawData.FilterSensorData filterSensorData, String zone) throws MqttException {
         var anomalyType = filterSensorData.getClassification().equals(SensorDataClassification.ManufactureAnomaly)
             ? AnomalyType.SensorFailure
             : AnomalyType.SporadicEvent;
@@ -100,7 +101,7 @@ public class SendMeasurmentsUseCase {
 
         sender.send(reading, filterSensorData.getMqttTopic());
         repository.updateLastSentObjectId(filterSensorData.getSensorData().getId(),
-                readingsProcessorTimestampHolderCollection);
+                readingsProcessorTimestampHolderCollection, zone);
     }
 }
 

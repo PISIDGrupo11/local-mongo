@@ -13,8 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SendSensorsWithoutManufactureUseCase {
 
-    @Value("${spring.data.mongodb.local.collections.no-manufacture-sensor-timestamp-holder}")
-    private String noManufactureSensorTsHolder;
+
 
     private final Sender sender;
     private final MQTTMapper mapper;
@@ -32,12 +31,15 @@ public class SendSensorsWithoutManufactureUseCase {
     private void sendAnomaly(SensorData sensorData) throws MqttException {
         Anomalia reading = mapper.mapSensorDataToAnomalia(sensorData, AnomalyType.NoManufactureData.toString());
         sender.send(reading, Topics.Anomaly);
-        repository.updateLastSentObjectId(sensorData.getId(), noManufactureSensorTsHolder);
+        repository
+                .updateLastSentObjectIdOfNoManufactureSensorData(
+                        sensorData.getId());
     }
 
     private void sendUnprocessableEntity(UnprocessableEntity entity) throws MqttException {
         sender.send(entity, Topics.WrongFormat);
-        repository.updateLastSentObjectId(entity.getObjectId(), noManufactureSensorTsHolder);
+        repository
+                .updateLastSentObjectIdOfNoManufactureSensorData(entity.getObjectId());
     }
 
     public void execute(RawData rawData) throws MqttException {
