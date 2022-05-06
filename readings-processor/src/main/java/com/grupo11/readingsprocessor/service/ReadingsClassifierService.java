@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 public class ReadingsClassifierService {
   private final ManufacturingErrorDetection manufacturingErrorDetection;
   private HashMap<String, Double> LastValues;
+  private HashMap<String, Integer> RunningAnomalyCounter;
 
   public ReadingsClassifierService(ManufacturingErrorDetection manufacturingErrorDetection) {
     this.manufacturingErrorDetection = manufacturingErrorDetection;
 
     LastValues = new HashMap<>();
+    RunningAnomalyCounter = new HashMap<>();
   }
 
   public RawData.FilterSensorData getClassifiedReading(
@@ -45,9 +47,28 @@ public class ReadingsClassifierService {
         System.out.println("Found peak for reading: Threshold " + threshold + " read " + percentDifference);
         filteredSensorData.setClassification(SensorDataClassification.OverThreshold);
         filteredSensorData.setMqttTopic(Topics.Anomaly);
-      }
 
-      LastValues.replace(sensorId, LastValues.get(sensorId), currentReadingValue);
+        if (!RunningAnomalyCounter.containsKey(sensorId)) {
+          RunningAnomalyCounter.put(sensorId, 0);
+        }
+        else {
+          var currentCounter = RunningAnomalyCounter.get(sensorId);
+
+          var triggerCounter = getPeakDetectionCounterForTrigger(
+              getSensorTypeFromSensorId(filteredSensorData.getSensorData().getSensor()));
+
+          if (currentCounter >= triggerCounter) {
+            LastValues.replace(sensorId, LastValues.get(sensorId), currentReadingValue);
+            RunningAnomalyCounter.remove(sensorId);
+          }
+          else {
+            RunningAnomalyCounter.replace(sensorId, currentCounter, currentCounter + 1);
+          }
+        }
+      }
+      else {
+        LastValues.replace(sensorId, LastValues.get(sensorId), currentReadingValue);
+      }
     }
 
     return filteredSensorData;
@@ -66,7 +87,20 @@ public class ReadingsClassifierService {
       case Luminosity:
         return WeAreYourEnemy.LUMINOSITY;
       default:
-        throw new IllegalArgumentException("sensorId value is invalid");
+        throw new IllegalArgumentException("sensorType value is invalid");
+    }
+  }
+
+  private int getPeakDetectionCounterForTrigger(SensorType sensorType) {
+    switch (sensorType) {
+      case Humidity:
+        return WeAreYourEnemy.HUMIDITY_RUNNING_COUNTER;
+      case Temperature:
+        return WeAreYourEnemy.TEMPERATURE_RUNNING_COUNTER;
+      case Luminosity:
+        return WeAreYourEnemy.LUMINOSITY_RUNNING_COUNTER;
+      default:
+        throw new IllegalArgumentException("sensorType value is invalid");
     }
   }
 
