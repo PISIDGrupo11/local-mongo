@@ -1,11 +1,11 @@
 package com.grupo11.readingsprocessor.container;
 
 import com.google.gson.Gson;
-import com.grupo11.readingsprocessor.Sender;
+import com.grupo11.readingsprocessor.service.Senders.Sender;
 import com.grupo11.readingsprocessor.database.repository.PC2MysqlRepository;
 import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
-import com.grupo11.readingsprocessor.mqtt.MQTTSender;
-import com.grupo11.readingsprocessor.service.DirectConnectionService;
+import com.grupo11.readingsprocessor.service.Senders.MQTTSender;
+import com.grupo11.readingsprocessor.service.Senders.DirectConnectionService;
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;

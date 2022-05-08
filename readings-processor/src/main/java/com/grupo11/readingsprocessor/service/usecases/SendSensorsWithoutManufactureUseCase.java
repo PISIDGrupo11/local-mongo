@@ -1,14 +1,12 @@
 package com.grupo11.readingsprocessor.service.usecases;
 
-import com.grupo11.readingsprocessor.Sender;
+import com.grupo11.readingsprocessor.service.Senders.Sender;
 import com.grupo11.readingsprocessor.database.models.*;
 import com.grupo11.readingsprocessor.database.repository.LocalMongoDBRepository;
 import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
 import com.grupo11.readingsprocessor.mqtt.Topics;
-import com.grupo11.readingsprocessor.service.ReadingsClassifierService;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component

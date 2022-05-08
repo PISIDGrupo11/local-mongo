@@ -1,8 +1,8 @@
 package com.grupo11.readingsprocessor;
 
 import com.grupo11.readingsprocessor.database.exceptions.NotFoundException;
-import com.grupo11.readingsprocessor.service.SenderAnomalyCollectionService;
-import com.grupo11.readingsprocessor.service.SenderMeasurementsService;
+import com.grupo11.readingsprocessor.service.SenderServices.SenderAnomalyCollectionService;
+import com.grupo11.readingsprocessor.service.SenderServices.SenderMeasurementsService;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
