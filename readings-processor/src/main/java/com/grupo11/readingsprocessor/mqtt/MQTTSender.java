@@ -17,8 +17,16 @@ public class MQTTSender implements Sender {
         System.out.println("[" + topic + "] Sending " + obj.toString());
 
         MqttMessage mqttMessage = new MqttMessage(mapper.mapObjToBytes(obj));
-        mqttMessage.setQos(2);
+        setQos(mqttMessage,topic);
         mqttMessage.setRetained(true);
         mqttClient.publish(topic, mqttMessage);
+    }
+
+    private void setQos(MqttMessage message,String topic){
+        if (topic.equals(Topics.Anomaly)) {
+            message.setQos(2);
+        } else {
+            message.setQos(0);
+        }
     }
 }
