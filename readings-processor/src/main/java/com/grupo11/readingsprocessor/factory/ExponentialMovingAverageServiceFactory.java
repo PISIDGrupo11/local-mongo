@@ -1,7 +1,7 @@
 package com.grupo11.readingsprocessor.factory;
 
 import com.grupo11.readingsprocessor.database.models.SensorType;
-import com.grupo11.readingsprocessor.service.ExponentialMovingAverageService;
+import com.grupo11.readingsprocessor.service.ProcessingServices.ExponentialMovingAverageService;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ExponentialMovingAverageServiceFactory {

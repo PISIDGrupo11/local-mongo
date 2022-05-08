@@ -1,4 +1,4 @@
-package com.grupo11.readingsprocessor.service;
+package com.grupo11.readingsprocessor.service.SenderServices;
 
 import com.grupo11.readingsprocessor.database.exceptions.NotFoundException;
 import com.grupo11.readingsprocessor.service.usecases.FetchSensorsWithoutManufactureUseCase;

@@ -1,4 +1,4 @@
-package com.grupo11.readingsprocessor.service;
+package com.grupo11.readingsprocessor.service.ProcessingServices;
 
 import com.grupo11.readingsprocessor.database.models.*;
 import com.grupo11.readingsprocessor.mqtt.Topics;

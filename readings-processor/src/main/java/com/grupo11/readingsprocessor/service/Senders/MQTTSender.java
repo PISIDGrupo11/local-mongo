@@ -1,6 +1,7 @@
-package com.grupo11.readingsprocessor.mqtt;
+package com.grupo11.readingsprocessor.service.Senders;
 
-import com.grupo11.readingsprocessor.Sender;
+import com.grupo11.readingsprocessor.mqtt.MQTTMapper;
+import com.grupo11.readingsprocessor.mqtt.Topics;
 import lombok.AllArgsConstructor;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;

@@ -1,10 +1,9 @@
-package com.grupo11.readingsprocessor.service;
+package com.grupo11.readingsprocessor.service.Senders;
 
 import com.grupo11.readingsprocessor.database.models.Anomalia;
 import com.grupo11.readingsprocessor.database.models.Medicao;
 import com.grupo11.readingsprocessor.database.models.UnprocessableEntity;
 import com.grupo11.readingsprocessor.database.repository.PC2MysqlRepository;
-import com.grupo11.readingsprocessor.Sender;
 import com.grupo11.readingsprocessor.mqtt.Topics;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

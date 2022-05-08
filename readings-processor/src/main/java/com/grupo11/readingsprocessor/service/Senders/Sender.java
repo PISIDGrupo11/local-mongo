@@ -1,4 +1,4 @@
-package com.grupo11.readingsprocessor;
+package com.grupo11.readingsprocessor.service.Senders;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 

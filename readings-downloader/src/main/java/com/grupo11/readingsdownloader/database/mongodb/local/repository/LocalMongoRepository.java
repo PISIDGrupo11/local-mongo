@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Repository
 public class LocalMongoRepository {
 
-    @Value("${spring.data.mongodb.local.collections.anomalies}")
+    @Value("${spring.data.mongodb.local.collections.sensors-without-manufacture-info}")
     private String anomaliesDataCollections;
 
     @Value("${spring.data.mongodb.local.collections.rawdata}")

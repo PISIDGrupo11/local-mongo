@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class LocalMongoDatabaseImpl implements LocalMongoDatabase {
 
     private final MongoDatabase session;
-    @Value("${spring.data.mongodb.local.collections.anomalies}")
+    @Value("${spring.data.mongodb.local.collections.sensors-without-manufacture-info}")
     private String anomaliesDataCollections;
 
     @Value("${spring.data.mongodb.local.collections.rawdata}")
