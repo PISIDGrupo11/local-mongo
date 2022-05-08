@@ -9,6 +9,7 @@ import com.grupo11.readingsprocessor.mqtt.Topics;
 import com.grupo11.readingsprocessor.service.ExponentialMovingAverageService;
 import com.grupo11.readingsprocessor.service.ReadingsClassifierService;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +27,7 @@ public class SendMeasurmentsUseCase {
     private final ReadingsClassifierService readingsClassifierService;
 
 
-    public SendMeasurmentsUseCase(Sender sender,
+    public SendMeasurmentsUseCase(@Qualifier("mqtt") Sender sender,
         MQTTMapper mapper,
         LocalMongoDBRepository repository,
         ReadingsClassifierService readingsClassifierService
