@@ -40,14 +40,14 @@ server:
 application-logic:
   ema-parameters:
     alphas:
-      temperature: 0.5
+      temperature: 0.6
       humidity: 0.5
       luminosity: 0.5
     peak-detection-thresholds:
-      temperature: 0.3
+      temperature: 0.1
       humidity: 0.3
       luminosity: 1
     peak-detection-anomaly-counter-trigger:
-      temperature: 3
+      temperature: 4
       humidity: 3
       luminosity: 3
