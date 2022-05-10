@@ -4,6 +4,7 @@ import com.grupo11.readingsprocessor.database.PC2Mysql;
 import com.grupo11.readingsprocessor.database.models.Anomalia;
 import com.grupo11.readingsprocessor.database.models.Medicao;
 import com.grupo11.readingsprocessor.database.models.UnprocessableEntity;
+import lombok.Synchronized;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,7 @@ public class PC2MysqlRepository implements PC2Mysql {
     }
 
     @Override
+    @Synchronized
     public void insertMedicao(Medicao medicao) {
         String query = """
                 INSERT INTO medicao (Zona, Sensor, DataHora, Leitura, DataHoraObjectId)
@@ -28,6 +30,7 @@ public class PC2MysqlRepository implements PC2Mysql {
     }
 
     @Override
+    @Synchronized
     public void insertAnomalia(Anomalia anomalia) {
         String query = """
                 INSERT INTO anomalia (Sensor,Zona, ValorAnomalo, TipoAnomalia, PayloadRecebido, Hora)
@@ -41,6 +44,7 @@ public class PC2MysqlRepository implements PC2Mysql {
             }
     }
 
+    @Synchronized
     public void insertUnprocessableEntity(UnprocessableEntity unprocessableEntity) {
         String query = """
                 INSERT INTO anomalia (Sensor,Zona, ValorAnomalo, TipoAnomalia, PayloadRecebido, Hora)
