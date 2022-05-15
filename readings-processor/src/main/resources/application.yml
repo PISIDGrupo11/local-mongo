@@ -6,7 +6,7 @@ spring:
   data:
     mongodb:
       local:
-        uri: mongodb://localhost:30001/LabMedicoes
+        uri: mongodb://mongo1,mongo2,mongo3/?replicaSet=dbrs
         database: LabMedicoes
         collections:
           raw-data: rawdata
